@@ -3,7 +3,7 @@ from time import sleep
 import streamlit as st
 
 
-def make_navigation():
+def navigation():
 
     if not st.session_state.get("password_correct", False):
         st.switch_page("streamlit_app.py")

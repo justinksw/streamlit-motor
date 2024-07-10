@@ -1,8 +1,8 @@
 import streamlit as st
 import plotly.graph_objects as go
-from navigation import make_navigation
+from navigation import navigation
 
-make_navigation()
+navigation()
 
 # st.set_page_config(layout='wide')
 

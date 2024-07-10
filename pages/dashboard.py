@@ -3,11 +3,11 @@ import datetime
 import pandas as pd
 import streamlit as st
 
-from navigation import make_navigation
+from navigation import navigation
 from plots.guage import gauge
 
 
-make_navigation()
+navigation()
 
 datetime_now = datetime.date.today()
 datetime_now

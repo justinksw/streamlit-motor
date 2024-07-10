@@ -40,13 +40,12 @@ To install required packages:
     streamlit_app.py
 ```
 
+# References
 
-# Streamlit APIs Documentation
+## Streamlit APIs Documentation
 
 https://docs.streamlit.io/
 
-
-# References
 
 ## Authentication
 
@@ -70,16 +69,36 @@ https://discuss.streamlit.io/t/specify-sidebar-width/45866
 
 ## Gauge indicator
 
+Config the Plotly gauge indicator
+
 https://discuss.streamlit.io/t/plotly-gauge-overwriting-itself/46651
+
+Modify tick style of Plotly gauge indicator
 
 https://stackoverflow.com/questions/69072792/how-to-add-legends-on-gauge-chart-using-plotly-graph-object
 
-https://plotly.com/python-api-reference/generated/plotly.graph_objects.indicator.html
+Plotly Indicator
 
 https://plotly.com/python/indicator/
 
+https://plotly.com/python-api-reference/generated/plotly.graph_objects.indicator.html
 
 
+## Database MySQL
 
+Connect Streamlit to MySQL
 
+https://docs.streamlit.io/develop/tutorials/databases/mysql
+
+Get start MySQL
+
+https://dev.mysql.com/doc/mysql-getting-started/en/
+
+Install MySQL on MacOS
+
+https://dev.mysql.com/doc/refman/8.0/en/macos-installation-launchd.html
+
+Install and use MySQL launch daemon on MacOS
+
+https://dev.mysql.com/doc/refman/8.0/en/macos-installation-launchd.html
 

@@ -1,9 +1,7 @@
 import streamlit as st
 
-from navigation import make_navigation
+from navigation import navigation
 
-make_navigation()
+navigation()
 
 st.write("Analysis")
-
-
