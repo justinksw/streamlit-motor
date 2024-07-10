@@ -212,8 +212,11 @@ Temporary Items
 
 
 # Other local folders
-.bin
-.bin/*
+bin
+bin/*
 
-.data
-.data/*
+data
+data/*
+
+materials
+materials/*
