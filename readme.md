@@ -7,14 +7,16 @@ In Terminal:
 
 # Prerequisites
 
-> pip install -r requirements.txt
-
 Development environment:
 
 - Python 3.9.19
 - Streamlit 1.36.0
 - Pandas 2.2.2
 - Plotly 5.22.0
+
+To install required packages:
+
+> pip install -r requirements.txt
 
 
 # Project Architecture
@@ -44,7 +46,7 @@ Development environment:
 https://docs.streamlit.io/
 
 
-# Useful online references
+# References
 
 ## Authentication
 
@@ -56,9 +58,14 @@ Streamlit Authentication without SSO
 
 https://docs.streamlit.io/knowledge-base/deploy/authentication-without-sso
 
-什麼是SSO (Single Sign-On 單一登入)?
+SSO (Single Sign-On 單一登入)
 
 https://aws.amazon.com/tw/what-is/sso/
+
+
+## Sidebar
+
+https://discuss.streamlit.io/t/specify-sidebar-width/45866
 
 
 ## Gauge indicator

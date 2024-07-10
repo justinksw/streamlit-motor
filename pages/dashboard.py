@@ -3,11 +3,11 @@ import datetime
 import pandas as pd
 import streamlit as st
 
+from navigation import make_navigation
 from plots.guage import gauge
 
-# This is the main page of the dashboard
 
-st.set_page_config(layout='wide')
+make_navigation()
 
 datetime_now = datetime.date.today()
 datetime_now

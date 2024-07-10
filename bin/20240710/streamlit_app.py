@@ -48,3 +48,27 @@ else:
     st.success("Logged in successfully!")
     sleep(0.5)
     st.switch_page("pages/dashboard.py")
+
+
+# Main Streamlit app starts here
+
+# # Pages
+
+# dashboard = st.Page("pages/dashboard.py", title="Overview", default=True)
+# analysis_page = st.Page("pages/analysis.py", title="Analysis")
+# developing = st.Page("pages/developing.py", title='Developing')
+
+
+# # st.navigation: Configure the available pages in a multipage app.
+# pg = st.navigation(
+#     {
+#         "Dashboard": [
+#             dashboard,
+#             analysis_page,
+#             developing,
+#         ]
+#     },
+#     position="sidebar"
+# )
+
+# pg.run()
