@@ -9,6 +9,13 @@ from plots.guage import gauge
 
 navigation()
 
+# conn = st.connection('mysql', type='sql')
+# data = conn.query("select * from imu;", ttl=600)
+# df = pd.DataFrame(data)
+# st.dataframe(df)
+
+#
+
 datetime_now = datetime.date.today()
 datetime_now
 

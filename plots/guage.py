@@ -25,7 +25,7 @@ def gauge():
                 "borderwidth": 1,  # line weight of border of the middle bar
                 "bordercolor": "black",  # line color of the border of the middle bar
                 "steps": [
-                    {"range": [0, 200], "color": "green"},
+                    {"range": [0, 200], "color": "#233142"},
                     {"range": [200, 400], "color": "yellow"},
                     {"range": [400, 600], "color": "red"},
                 ],

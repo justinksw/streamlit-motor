@@ -39,18 +39,25 @@ def check_password():
         st.error("User not known or password incorrect")
     return False
 
+# ========================================================================================== #
 
-# if not check_password():
-#     st.stop()
 
-# else:
-#     st.session_state.logged_in = True
-#     st.success("Logged in successfully!")
-#     sleep(0.5)
-#     st.switch_page("pages/dashboard.py")
+if not check_password():
+    st.stop()
 
-st.session_state["password_correct"] = True
-st.session_state.logged_in = True
-st.success("Logged in successfully!")
-sleep(0.5)
-st.switch_page("pages/dashboard.py")
+else:
+    st.session_state.logged_in = True
+    st.success("Logged in successfully!")
+    sleep(0.5)
+    st.switch_page("pages/dashboard.py")
+
+# =================== TEST ================================================================= #
+
+
+# st.session_state["password_correct"] = True
+# st.session_state.logged_in = True
+# st.success("Logged in successfully!")
+# sleep(0.5)
+# st.switch_page("pages/dashboard.py")
+
+# =================== TEST ================================================================= #

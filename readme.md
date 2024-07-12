@@ -23,13 +23,16 @@ To install required packages:
 
 ```
 . {root}
+    |--- {.streamlit}
+        |--- config.toml
+        |--- secrets.toml
     |--- {data}
         |--- {Accelerometer}
             |--- xxxx.lvm
             |--- xxxx.lvm
             ...            
     |--- {materials}
-        |--- logo.png
+        |--- logo1.png
     |--- {pages}
         |--- analysis.py
         |--- dashboard.py
@@ -37,7 +40,9 @@ To install required packages:
     |--- {plots}
         |--- gauge.py
     readme.md
+    navigation.py
     streamlit_app.py
+    requirements.txt
 ```
 
 # References
@@ -84,6 +89,15 @@ https://plotly.com/python/indicator/
 https://plotly.com/python-api-reference/generated/plotly.graph_objects.indicator.html
 
 
+## Multi-page apps with widget state preservation
+
+https://discuss.streamlit.io/t/multi-page-app-with-session-state/3074
+
+https://discuss.streamlit.io/t/multi-page-apps-with-widget-state-preservation-the-simple-way/22303
+
+https://github.com/streamlit/streamlit/issues/5813
+
+
 ## Database MySQL
 
 Connect Streamlit to MySQL
@@ -101,4 +115,47 @@ https://dev.mysql.com/doc/refman/8.0/en/macos-installation-launchd.html
 Install and use MySQL launch daemon on MacOS
 
 https://dev.mysql.com/doc/refman/8.0/en/macos-installation-launchd.html
+
+
+MySQL Workbench
+
+https://dev.mysql.com/doc/workbench/en/
+
+
+# Database
+
+(1) Download Python MySQL connector
+
+> pip install mysql-connector
+
+> pip install SQLAlchemy
+
+(2) Local host / Server host
+
+
+```
+connection = mysql.connector.connect(
+    host = "",
+    user = "",
+    password = "",
+    database = "",
+)
+
+cursor = connection.cursor()
+
+cursor.excute("Select * from {TABLE_NAME}")  # used to manipulate the database
+
+data = cursor.fetchall()
+
+df = pd.DataFrame(data, columns=cursor.column_names)  # pandas dataframe
+
+st.dataframe(df)  # streamlit write dataframe
+```
+
+## Note
+
+Testing database: Testing_on_IMU_data
+Schema: test
+Table: imu
+
 
