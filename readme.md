@@ -2,7 +2,7 @@
 
 In Terminal:
 
-> streamlit run streamlit_app.py
+> $ streamlit run streamlit_app.py
 
 
 # Prerequisites
@@ -16,7 +16,7 @@ Development environment:
 
 To install required packages:
 
-> pip install -r requirements.txt
+> $ pip install -r requirements.txt
 
 
 # Project Architecture
@@ -50,6 +50,8 @@ To install required packages:
 ## Streamlit APIs Documentation
 
 https://docs.streamlit.io/
+
+https://cheat-sheet.streamlit.app/
 
 
 ## Authentication
@@ -123,6 +125,50 @@ https://dev.mysql.com/doc/workbench/en/
 
 
 # Database
+
+## Install MySQL on MacOS
+
+### 1. 確認要安裝的版本
+
+> $ brew info mysql
+
+### 2. 安裝預設的版本
+
+> $ brew install mysql mycli
+
+如果要安裝特定的版本：
+
+> $ brew install mysql@5.7 mycli
+
+查詢 homebrew 提供的版本：
+
+https://formulae.brew.sh/formula/mysql
+
+## 啟動 / 結束 MySQL
+
+### 1. 確認目前 MySQL 的執行狀態
+
+> $ brew services list
+
+### 2. 啟動 MySQL
+
+> $ brew services start mysql
+
+### 3. 結束 MySQL
+
+> $ brew services stop mysql
+
+## 登入 MySQL
+
+> $ mycli -u root -h localhost
+
+homebrew 安裝的 MySQL 預設會跑在 localhost
+
+
+Ref: https://myapollo.com.tw/blog/install-mysql-using-homebrew/
+
+
+## ...Editting
 
 (1) Download Python MySQL connector
 
