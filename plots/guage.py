@@ -2,14 +2,15 @@ import plotly.graph_objects as go
 import streamviz
 
 
-def gauge():
+def gauge(title="indicator"):
+
     fig = go.Figure(
 
         go.Indicator(
             mode="gauge",
             value=100,
             domain={"x": [0, 1], "y": [0, 1]},
-            # title={'text': "Speed"}
+            title={'text': "Indicator"},
             gauge={
                 "shape": "angular",
                 "axis": {
@@ -20,12 +21,12 @@ def gauge():
                     "ticktext": ["Good", "Warn", "Danger"],
                     "ticks": "",
                 },
-                "bar": {"color": "darkblue"},  # color of the middle bar
+                "bar": {"color": "black"},  # color of the middle bar
                 "bgcolor": "white",  # background color of the middle bar
                 "borderwidth": 1,  # line weight of border of the middle bar
                 "bordercolor": "black",  # line color of the border of the middle bar
                 "steps": [
-                    {"range": [0, 200], "color": "#233142"},
+                    {"range": [0, 200], "color": "green"},
                     {"range": [200, 400], "color": "yellow"},
                     {"range": [400, 600], "color": "red"},
                 ],

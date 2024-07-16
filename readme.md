@@ -168,40 +168,38 @@ homebrew 安裝的 MySQL 預設會跑在 localhost
 Ref: https://myapollo.com.tw/blog/install-mysql-using-homebrew/
 
 
-## ...Editting
+# Connection between MySQL and Streamlit
 
-(1) Download Python MySQL connector
+## 1. Download Python MySQL connector
 
-> pip install mysql-connector
+> $ pip install mysql-connector
+> $ pip install SQLAlchemy
 
-> pip install SQLAlchemy
+## 2. Local host
 
-(2) Local host / Server host
-
+### dashboard.py
 
 ```
-connection = mysql.connector.connect(
-    host = "",
-    user = "",
-    password = "",
-    database = "",
-)
-
-cursor = connection.cursor()
-
-cursor.excute("Select * from {TABLE_NAME}")  # used to manipulate the database
-
-data = cursor.fetchall()
-
-df = pd.DataFrame(data, columns=cursor.column_names)  # pandas dataframe
-
-st.dataframe(df)  # streamlit write dataframe
+conn = st.connection('mysql', type='sql')
+data = conn.query("select * from imu;", ttl=600)
+df = pd.DataFrame(data)
+st.dataframe(df)
 ```
 
-## Note
+### secrets.toml
 
-Testing database: Testing_on_IMU_data
-Schema: test
-Table: imu
+```
+[connections.mysql]
+dialect = "mysql"
+host = "localhost"
+port = 3306
+database = "test_schema"
+username = "root"
+password = ""
+```
+
+**IMPORTANT**
+
+.gitignore the secrects.toml
 
 

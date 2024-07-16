@@ -9,10 +9,10 @@ from plots.guage import gauge
 
 navigation()
 
-# conn = st.connection('mysql', type='sql')
-# data = conn.query("select * from imu;", ttl=600)
-# df = pd.DataFrame(data)
-# st.dataframe(df)
+conn = st.connection('mysql', type='sql')
+data = conn.query("select * from imu;", ttl=600)
+df = pd.DataFrame(data)
+st.dataframe(df)
 
 #
 
@@ -24,11 +24,7 @@ LAST_INSPECTION_DATE = datetime.date(2024, 7, 1)
 DIFF = abs(datetime_now - LAST_INSPECTION_DATE).days
 
 
-@st.cache_data
-def get_data(uploaded_file):
-    dataframe = pd.read_csv(uploaded_file)
-    st.write(dataframe)
-    return dataframe
+
 
 
 # == Motor Selection == #
@@ -40,8 +36,9 @@ with motorSelectionContainer:
     motorSelection = st.selectbox(
         label="Select a motor for inspection.",
         options=[
-            "Motor 1",
-            "Motor 2",
+            "Motor 1",  # 100% lubricant data
+            "Motor 2",  # 75% lubricant data
+            "Motor 3",  # 25% lubricant data
         ],
         index=0,
     )
@@ -75,16 +72,4 @@ with keyIndicatorContainer:
         # gauge()
 
 
-# == Data Visualization == #
 
-container = st.container(height=None, border=True)
-
-with container:
-    uploaded_file = st.file_uploader(
-        label="Upload **One** File", label_visibility="visible")
-
-if uploaded_file is not None:
-    uploaded_dataframe = get_data(uploaded_file)
-
-    df = uploaded_dataframe[["角度X(°)", "角度Y(°)", "角度Z(°)"]].head(100)
-    st.line_chart(df)
