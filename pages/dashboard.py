@@ -24,9 +24,6 @@ LAST_INSPECTION_DATE = datetime.date(2024, 7, 1)
 DIFF = abs(datetime_now - LAST_INSPECTION_DATE).days
 
 
-
-
-
 # == Motor Selection == #
 
 motorSelectionContainer = st.container(height=None, border=True)
@@ -57,6 +54,9 @@ with keyMetricsContainer:
 
 # == Key Indicator == #
 
+st.header("Health Condition Indicator")
+
+
 keyIndicatorContainer = st.container(height=None, border=True)
 with keyIndicatorContainer:
 
@@ -64,12 +64,9 @@ with keyIndicatorContainer:
         [6, 6], vertical_alignment="top", gap="medium")
 
     with col1:
-        st.plotly_chart(gauge(), use_container_width=True)
-        # gauge()
+        fig1 = gauge(title="Indicator 1")
+        st.plotly_chart(fig1, use_container_width=True)
 
     with col2:
-        st.plotly_chart(gauge(), use_container_width=True)
-        # gauge()
-
-
-
+        fig2 = gauge(title="Indicator 2")
+        st.plotly_chart(fig2, use_container_width=True)

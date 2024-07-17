@@ -2,6 +2,7 @@ import hmac
 from time import sleep
 
 import streamlit as st
+import streamlit_authenticator as stauth
 
 
 def check_password():

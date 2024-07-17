@@ -28,6 +28,8 @@ def navigation():
 
             st.page_link("pages/dashboard.py",
                          label="Overview")
+            
+            # st.markdown('<span style="font-size: 24px;"><a href="#health-condition-indicator" style="text-decoration: none; color: black">Header</a></span>', unsafe_allow_html=True)
 
             st.page_link("pages/analysis.py",
                          label="Analysis")

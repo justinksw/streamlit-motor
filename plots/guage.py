@@ -10,7 +10,7 @@ def gauge(title="indicator"):
             mode="gauge",
             value=100,
             domain={"x": [0, 1], "y": [0, 1]},
-            title={'text': "Indicator"},
+            title={'text': f"{title}"},
             gauge={
                 "shape": "angular",
                 "axis": {
