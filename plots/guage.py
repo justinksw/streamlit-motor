@@ -2,23 +2,25 @@ import plotly.graph_objects as go
 import streamviz
 
 
-def gauge(title="indicator"):
+def gauge(value=100, title="indicator"):
 
     fig = go.Figure(
 
         go.Indicator(
             mode="gauge",
-            value=100,
+
+            value=value,  # value
+            
             domain={"x": [0, 1], "y": [0, 1]},
             title={'text': f"{title}"},
             gauge={
                 "shape": "angular",
                 "axis": {
-                    "range": [0, 600],
+                    "range": [0, 800],
                     "visible": True,
                     "tickmode": "array",
-                    "tickvals": [100, 300, 500],
-                    "ticktext": ["Good", "Warn", "Danger"],
+                    "tickvals": [100, 300, 500, 700],
+                    "ticktext": ["Good", "Damaged", "Warn", "Danger"],
                     "ticks": "",
                 },
                 "bar": {"color": "black"},  # color of the middle bar
@@ -28,7 +30,8 @@ def gauge(title="indicator"):
                 "steps": [
                     {"range": [0, 200], "color": "green"},
                     {"range": [200, 400], "color": "yellow"},
-                    {"range": [400, 600], "color": "red"},
+                    {"range": [400, 600], "color": "orange"},
+                    {"range": [600, 800], "color": "red"},
                 ],
                 # "threshold": {
                 #     "line": {"color": "orange", "width": 5},
