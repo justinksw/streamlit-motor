@@ -56,6 +56,10 @@ https://cheat-sheet.streamlit.app/
 
 ## Authentication
 
+Adding an authentication component to your app
+
+https://blog.streamlit.io/streamlit-authenticator-part-1-adding-an-authentication-component-to-your-app/
+
 Demo-project of a multipage app with authentication
 
 https://github.com/blackary/streamlit-login?tab=readme-ov-file
