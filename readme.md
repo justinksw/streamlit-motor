@@ -25,22 +25,22 @@ To install required packages:
 
 ```
 .{root}
-    |--- {.streamlit}
-        |--- config.toml
-        |--- secrets.toml
-    |--- {data} 
-    |--- {materials}
-        |--- logo1.png
-    |--- {pages}
-        |--- analysis.py
-        |--- dashboard.py
-        |--- developing.py
-    |--- {plots}
-        |--- gauge.py
-    readme.md
-    navigation.py
-    streamlit_app.py
-    requirements.txt
+|--- {.streamlit}
+    |--- config.toml
+    |--- secrets.toml
+|--- {data} 
+|--- {materials}
+    |--- logo1.png
+|--- {pages}
+    |--- analysis.py
+    |--- dashboard.py
+    |--- developing.py
+|--- {plots}
+    |--- gauge.py
+|--- readme.md
+|--- navigation.py
+|--- streamlit_app.py
+|--- requirements.txt
 ```
 
 # References
