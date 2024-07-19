@@ -14,6 +14,8 @@ Development environment:
 - Pandas 2.2.2
 - Plotly 5.22.0
 
+- kswutils
+
 To install required packages:
 
 > $ pip install -r requirements.txt
@@ -22,15 +24,11 @@ To install required packages:
 # Project Architecture
 
 ```
-. {root}
+.{root}
     |--- {.streamlit}
         |--- config.toml
         |--- secrets.toml
-    |--- {data}
-        |--- {Accelerometer}
-            |--- xxxx.lvm
-            |--- xxxx.lvm
-            ...            
+    |--- {data} 
     |--- {materials}
         |--- logo1.png
     |--- {pages}
