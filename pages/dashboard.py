@@ -7,6 +7,7 @@ import streamlit as st
 from navigation import navigation
 from plots.guage import gauge
 
+
 from kswutils.calculator import calc_fft
 from kswutils.signalprocessing import Sliding1d
 

@@ -218,11 +218,8 @@ bin/*
 data
 data/*
 
+src
+src/*
+
 materials
 materials/*
-
-model
-model/*
-
-calculation
-calculation/*
