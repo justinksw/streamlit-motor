@@ -126,6 +126,8 @@ class Dashboard:
 
             X = df["data"].to_numpy()
 
+            print(X.shape)
+
             data = Sliding1d(X, window=2560, step=256)
             data_rms = data.rms_sliding()
 
