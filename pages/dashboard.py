@@ -4,18 +4,35 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 
-from navigation import navigation
-from plots.guage import gauge
-
+from src.navigation import navigation
+from src.guage import gauge
+from src.use_vae import get_feature, anomaly_detection
 
 from kswutils.calculator import calc_fft
 from kswutils.signalprocessing import Sliding1d
+
+
+class Motor:
+    # input: Query.
+    # -> dataframe
+    # return current status of the motor
+
+    def __init__(self, conn, motor) -> None:
+
+        query = f"SELECT data, label FROM lub WHERE label='{motor}';"
+
+        table = conn.query(query, ttl=0)
+        df = pd.DataFrame(table)
+
+        pass
 
 
 class Dashboard:
     def __init__(self) -> None:
 
         self.conn = st.connection('mysql', type='sql')
+
+        
 
         self.datetime_now = datetime.date.today()
         st.write(self.datetime_now)
@@ -49,10 +66,10 @@ class Dashboard:
             value = "Damaged"
             last_inspection_date = datetime.date(2023, 10, 26)
         elif self.motor == 'Motor 3':
-            value = "Warn"
+            value = "Damaged"
             last_inspection_date = datetime.date(2023, 11, 4)
         elif self.motor == "Motor 4":
-            value = "Danger"
+            value = "Damaged"
             last_inspection_date = datetime.date(2023, 11, 1)
         elif self.motor == "Motor 5":
             value = "Danger"
@@ -71,18 +88,40 @@ class Dashboard:
 
     def gauge_indicator(self):
 
-        st.header("Health Condition Indicator")
+        st.header("Health Condition Indicator - VAE")
+
+        condition = ""
 
         if self.motor == "Motor 1":
-            value = 100
+            condition = "lub100"
         elif self.motor == "Motor 2":
-            value = 300
+            condition = "lub75"
         elif self.motor == 'Motor 3':
-            value = 500
+            condition = "lub25"
         elif self.motor == "Motor 4":
-            value = 650
+            condition = "lub10"
         elif self.motor == "Motor 5":
-            value = 790
+            condition = "lub2_5"
+
+        if condition:
+            query = f"SELECT data, label FROM lub WHERE label='{condition}';"
+
+            table = self.conn.query(query, ttl=0)
+            df = pd.DataFrame(table)
+
+            # st.dataframe(df)
+
+            X = df["data"].to_numpy()
+
+            feature = get_feature(X)
+
+            score = anomaly_detection(
+                data=feature,
+                encoder_pt='./model/encoder1.pt',
+                deconde_pt='./model/decoder1.pt',
+            )
+            print(score)
+            print()
 
         container = st.container(height=None, border=True)
         with container:
@@ -91,11 +130,11 @@ class Dashboard:
                 [6, 6], vertical_alignment="top", gap="medium")
 
             with col1:
-                fig1 = gauge(value=value, title="Indicator 1")
+                fig1 = gauge(value=int(score), title="Indicator 1")
                 st.plotly_chart(fig1, use_container_width=True)
 
             with col2:
-                fig2 = gauge(value=value, title="Indicator 2")
+                fig2 = gauge(value=int(score), title="Indicator 2")
                 st.plotly_chart(fig2, use_container_width=True)
 
         return None
@@ -126,8 +165,6 @@ class Dashboard:
             # st.dataframe(df)
 
             X = df["data"].to_numpy()
-
-            print(X.shape)
 
             data = Sliding1d(X, window=2560, step=256)
             data_rms = data.rms_sliding()

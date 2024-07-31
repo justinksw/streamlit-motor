@@ -1,6 +1,6 @@
 import streamlit as st
 import plotly.graph_objects as go
-from navigation import navigation
+from src.navigation import navigation
 
 navigation()
 

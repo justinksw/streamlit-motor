@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from navigation import navigation
+from src.navigation import navigation
 
 from kswutils.calculator import calc_fft
 from kswutils.signalprocessing import Sliding1d

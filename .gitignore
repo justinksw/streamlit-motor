@@ -221,5 +221,8 @@ data/*
 src
 src/*
 
+model
+model/*
+
 materials
 materials/*
