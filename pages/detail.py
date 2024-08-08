@@ -1,61 +1,40 @@
 import datetime
 
-import numpy as np
 import pandas as pd
 import streamlit as st
 
-from src.navigation import navigation
-from src.guage import gauge
-from src.use_vae import get_feature, anomaly_detection
+from src.components import Static
+from src.database import Database
+from src2.ai_model import AI_Model
 
 from kswutils.calculator import calc_fft
 from kswutils.signalprocessing import Sliding1d
 
 
-class Motor:
-    # input: Query.
-    # -> dataframe
-    # return current status of the motor
-
-    def __init__(self, conn, motor) -> None:
-
-        query = f"SELECT data, label FROM lub WHERE label='{motor}';"
-
-        table = conn.query(query, ttl=0)
-        df = pd.DataFrame(table)
-
-        pass
+STATIC = Static()
+DATABASE = Database()
 
 
-class Dashboard:
+class Detail:
     def __init__(self) -> None:
+        self.motor = st.session_state.selected_motor
 
-        self.conn = st.connection('mysql', type='sql')
+        st.write(datetime.date.today())
 
-        
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            st.button("Return", on_click=cancel_selection)
+
+        with col2:
+            if st.button("Sensor 1"):
+                st.session_state.selected_sensor = "Sensor-1"
+
+        with col3:
+            if st.button("Sensor 2"):
+                st.session_state.selected_sensor = "Sensor-2"
 
         self.datetime_now = datetime.date.today()
-        st.write(self.datetime_now)
-
-        self.motor = self.select_box()
-
-    def select_box(self):
-
-        container = st.container(height=None, border=True)
-        with container:
-
-            motor_selection = st.selectbox(
-                label="Select a motor for inspection.",
-                options=[
-                    "Motor 1",  # 100%
-                    "Motor 2",  # 75%
-                    "Motor 3",  # 25%
-                    "Motor 4",  # 10%
-                    "Motor 5",  # 2.5%
-                ],
-                index=None,
-            )
-        return motor_selection
 
     def text_metrics(self):
 
@@ -79,49 +58,55 @@ class Dashboard:
         container = st.container(height=None, border=True)
         with container:
 
-            col1, col2, col3 = st.columns(3)
+            col1, col2, col3, col4 = st.columns(4)
             col1.metric(label="Motor", value=f"{self.motor}")
-            col2.metric(label="Condition", value=value)
-            col3.metric(
+            col2.metric(label="Sensor",
+                        value=f"{st.session_state.selected_sensor}")
+            col3.metric(label="Condition", value=value)
+            col4.metric(
                 label="Since last inspection", value=f"{diff} day(s)")
         return None
 
     def gauge_indicator(self):
 
-        st.header("Health Condition Indicator - VAE")
+        st.header("Health Indicator")
 
         condition = ""
 
         if self.motor == "Motor 1":
             condition = "lub100"
+            m2 = 0.8
         elif self.motor == "Motor 2":
             condition = "lub75"
+            m2 = 2.2
         elif self.motor == 'Motor 3':
             condition = "lub25"
+            m2 = 4.5
         elif self.motor == "Motor 4":
             condition = "lub10"
+            m2 = 5.5
         elif self.motor == "Motor 5":
             condition = "lub2_5"
+            m2 = 12
+
+        else:
+            m2 = 0
 
         if condition:
-            query = f"SELECT data, label FROM lub WHERE label='{condition}';"
 
-            table = self.conn.query(query, ttl=0)
-            df = pd.DataFrame(table)
-
-            # st.dataframe(df)
+            df = DATABASE.get_data(condition)
 
             X = df["data"].to_numpy()
 
-            feature = get_feature(X)
-
-            score = anomaly_detection(
-                data=feature,
+            AI = AI_Model(
                 encoder_pt='./model/encoder1.pt',
-                deconde_pt='./model/decoder1.pt',
+                deconde_pt='./model/decoder1.pt',)
+
+            feature = AI.get_feature(X)
+
+            score = AI.anomaly_detection(
+                data=feature
             )
-            print(score)
-            print()
 
         container = st.container(height=None, border=True)
         with container:
@@ -130,18 +115,16 @@ class Dashboard:
                 [6, 6], vertical_alignment="top", gap="medium")
 
             with col1:
-                fig1 = gauge(value=int(score), title="Indicator 1")
-                st.plotly_chart(fig1, use_container_width=True)
+                STATIC.gauge_chart_ai(value=score)
 
             with col2:
-                fig2 = gauge(value=int(score), title="Indicator 2")
-                st.plotly_chart(fig2, use_container_width=True)
+                STATIC.gauge_chart_rms(value=m2)
 
         return None
 
     def write_df(self):
 
-        st.header("Connected Local MySQL database")
+        st.header("Motor Data")
 
         condition = ""
 
@@ -157,12 +140,7 @@ class Dashboard:
             condition = "lub2_5"
 
         if condition:
-            query = f"SELECT data, label FROM lub WHERE label='{condition}';"
-
-            table = self.conn.query(query, ttl=0)
-            df = pd.DataFrame(table)
-
-            # st.dataframe(df)
+            df = DATABASE.get_data(condition)
 
             X = df["data"].to_numpy()
 
@@ -170,7 +148,7 @@ class Dashboard:
             data_rms = data.rms_sliding()
 
             fft_x, fft_y = calc_fft(X, 25600)
-            dff = {"x": fft_x, "y": fft_y}
+            dff = {"Frequency (Hz)": fft_x, "Coefficient": fft_y}
             dff = pd.DataFrame(dff)
 
             container = st.container(height=None, border=True)
@@ -179,13 +157,30 @@ class Dashboard:
                 col1, col2 = st.columns(
                     [6, 6], vertical_alignment="top", gap="medium")
 
-            with col1:
-                st.subheader("FFT")
-                st.line_chart(dff.head(500), x="x", y="y")
+                if not st.session_state.more_calculation:
+                    st.button("More", on_click=show_more_calculation)
 
-            with col2:
+                else:
+                    st.button("Less", on_click=hide_more_calculation)
+
+            with col1:
                 st.subheader("RMS")
                 st.line_chart(data=data_rms, x_label="Windows", y_label="RMS")
+
+                if st.session_state.more_calculation:
+                    st.subheader("Skew")
+                    st.line_chart(data=data.skew_sliding(),
+                                  x_label="Windows", y_label="Skew")
+
+            with col2:
+                st.subheader("FFT")
+                st.line_chart(dff.head(500), x="Frequency (Hz)",
+                              y="Coefficient")
+
+                if st.session_state.more_calculation:
+                    st.subheader("Kurtosis")
+                    st.line_chart(data=data.kurtosis_sliding(),
+                                  x_label="Windows", y_label="Kurtosis",)
 
         return None
 
@@ -195,13 +190,23 @@ class Dashboard:
 
             self.text_metrics()
             self.gauge_indicator()
-
             self.write_df()
 
         return True
 
 
-navigation()
+def cancel_selection():
+    st.session_state.selected_motor = None
+    return None
 
-dashboard = Dashboard()
-dashboard.display()
+
+def show_more_calculation():
+    if st.session_state.more_calculation == False:
+        st.session_state.more_calculation = True
+    return None
+
+
+def hide_more_calculation():
+    if st.session_state.more_calculation == True:
+        st.session_state.more_calculation = False
+    return None

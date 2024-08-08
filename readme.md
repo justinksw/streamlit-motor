@@ -54,120 +54,115 @@ https://cheat-sheet.streamlit.app/
 
 ## Authentication
 
-Adding an authentication component to your app
+- [Adding an authentication component to your app](https://blog.streamlit.io/streamlit-authenticator-part-1-adding-an-authentication-component-to-your-app/)
 
-https://blog.streamlit.io/streamlit-authenticator-part-1-adding-an-authentication-component-to-your-app/
+- [Demo-project of a multipage app with authentication](https://github.com/blackary/streamlit-login?tab=readme-ov-file)
 
-Demo-project of a multipage app with authentication
+- [Streamlit Authentication without SSO](https://docs.streamlit.io/knowledge-base/deploy/authentication-without-sso)
 
-https://github.com/blackary/streamlit-login?tab=readme-ov-file
-
-Streamlit Authentication without SSO
-
-https://docs.streamlit.io/knowledge-base/deploy/authentication-without-sso
-
-SSO (Single Sign-On 單一登入)
-
-https://aws.amazon.com/tw/what-is/sso/
+- [What is SSO (Single Sign-On)](https://aws.amazon.com/tw/what-is/sso/)
 
 
 ## Sidebar
 
-https://discuss.streamlit.io/t/specify-sidebar-width/45866
+- [Specify Sidebar Width](https://discuss.streamlit.io/t/specify-sidebar-width/45866)
+
+
+## Container
+
+- [Stylable container](https://arnaudmiribel.github.io/streamlit-extras/extras/stylable_container/)
+- [Apply custom css to manually created container (Modify the CSS by ID)](https://discuss.streamlit.io/t/applying-custom-css-to-manually-created-containers/33428/1) 
+
+
+## Button
+
+- [How to style a button in streamlit](https://stackoverflow.com/questions/69478972/how-to-style-a-button-in-streamlit)
 
 
 ## Gauge indicator
 
-Config the Plotly gauge indicator
+- [Config the Plotly gauge indicator](https://discuss.streamlit.io/t/plotly-gauge-overwriting-itself/46651)
 
-https://discuss.streamlit.io/t/plotly-gauge-overwriting-itself/46651
+- [Modify tick style of Plotly gauge indicator](https://stackoverflow.com/questions/69072792/how-to-add-legends-on-gauge-chart-using-plotly-graph-object)
 
-Modify tick style of Plotly gauge indicator
+- [Plotly Python Indicator](https://plotly.com/python/indicator/)
 
-https://stackoverflow.com/questions/69072792/how-to-add-legends-on-gauge-chart-using-plotly-graph-object
+- [Plotly Graph Objects Indicator](https://plotly.com/python-api-reference/generated/plotly.graph_objects.indicator.html)
 
-Plotly Indicator
+- [JS Gauge Indicator](https://www.cssscript.com/customizable-gauge-canvas/)
 
-https://plotly.com/python/indicator/
 
-https://plotly.com/python-api-reference/generated/plotly.graph_objects.indicator.html
+## Battery
+
+- [Battery Status](https://tutorials-warehouse.blogspot.com/2023/03/display-battery-status-using-html-css.html)
+
+## Percentage
+
+- [Codepen Percentage Circle](https://codepen.io/sergiopedercini/pen/jmKdbj)
 
 
 ## Multi-page apps with widget state preservation
 
-https://discuss.streamlit.io/t/multi-page-app-with-session-state/3074
+- [Multipage App with session state](https://discuss.streamlit.io/t/multi-page-app-with-session-state/3074)
 
-https://discuss.streamlit.io/t/multi-page-apps-with-widget-state-preservation-the-simple-way/22303
+- [Multipage App with widget state preservation](https://discuss.streamlit.io/t/multi-page-apps-with-widget-state-preservation-the-simple-way/22303)
 
-https://github.com/streamlit/streamlit/issues/5813
+- [Issues 5813](https://github.com/streamlit/streamlit/issues/5813)
 
 
 ## Database MySQL
 
-Connect Streamlit to MySQL
+- [Connect Streamlit to MySQL](https://docs.streamlit.io/develop/tutorials/databases/mysql)
 
-https://docs.streamlit.io/develop/tutorials/databases/mysql
+- [Get start MySQL](https://dev.mysql.com/doc/mysql-getting-started/en/)
 
-Get start MySQL
+- [Install MySQL on MacOS](https://dev.mysql.com/doc/refman/8.0/en/macos-installation-launchd.html)
 
-https://dev.mysql.com/doc/mysql-getting-started/en/
+- [Install and use MySQL launch daemon on MacOS](https://dev.mysql.com/doc/refman/8.0/en/macos-installation-launchd.html)
 
-Install MySQL on MacOS
-
-https://dev.mysql.com/doc/refman/8.0/en/macos-installation-launchd.html
-
-Install and use MySQL launch daemon on MacOS
-
-https://dev.mysql.com/doc/refman/8.0/en/macos-installation-launchd.html
-
-
-MySQL Workbench
-
-https://dev.mysql.com/doc/workbench/en/
+- [MySQL Workbench](https://dev.mysql.com/doc/workbench/en/)
 
 
 # Database
 
 ## Install MySQL on MacOS
 
-### 1. 確認要安裝的版本
+### 1. Check the version
 
 > $ brew info mysql
 
-### 2. 安裝預設的版本
+### 2. Install default version
 
 > $ brew install mysql mycli
 
-如果要安裝特定的版本：
+Install specific version
 
 > $ brew install mysql@5.7 mycli
 
-查詢 homebrew 提供的版本：
+Check versions in Homebrew
 
 https://formulae.brew.sh/formula/mysql
 
-## 啟動 / 結束 MySQL
+## Start / Stop MySQL
 
-### 1. 確認目前 MySQL 的執行狀態
+### 1. Check MySQL Status
 
 > $ brew services list
 
-### 2. 啟動 MySQL
+### 2. Start MySQL
 
 > $ brew services start mysql
 
-### 3. 結束 MySQL
+### 3. Stop MySQL
 
 > $ brew services stop mysql
 
-## 登入 MySQL
+## Log-in MySQL
 
 > $ mycli -u root -h localhost
 
-homebrew 安裝的 MySQL 預設會跑在 localhost
 
-
-Ref: https://myapollo.com.tw/blog/install-mysql-using-homebrew/
+Ref: [Install mysql using homebrew](https://myapollo.com.tw/blog/install-mysql-using-homebrew/)
 
 
 # Connection between MySQL and Streamlit

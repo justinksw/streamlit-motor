@@ -218,11 +218,17 @@ bin/*
 data
 data/*
 
-src
-src/*
+src2
+src2/*
+
+components
+components/*
 
 model
 model/*
 
 materials
 materials/*
+
+html
+html/*
