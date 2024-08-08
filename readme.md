@@ -30,13 +30,13 @@ To install required packages:
     |--- secrets.toml
 |--- {data} 
 |--- {materials}
-    |--- logo1.png
+    |--- logo.png
 |--- {pages}
     |--- analysis.py
     |--- dashboard.py
     |--- developing.py
-|--- {plots}
-    |--- gauge.py
+|--- {src}
+    |--- components.py
 |--- readme.md
 |--- navigation.py
 |--- streamlit_app.py
