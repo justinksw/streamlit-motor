@@ -9,11 +9,14 @@ In Terminal:
 
 Development environment:
 
-- Python 3.9.19
-- Streamlit 1.36.0
-- Pandas 2.2.2
-- Plotly 5.22.0
-
+- Python
+- Streamlit
+- Pandas
+- Plotly
+- Pytorch
+- Scikit-learn
+- librosa
+- numpy
 - kswutils
 
 To install required packages:
