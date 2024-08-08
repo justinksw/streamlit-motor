@@ -47,9 +47,9 @@ To install required packages:
 
 ## Streamlit APIs Documentation
 
-https://docs.streamlit.io/
+[Streamlit](https://docs.streamlit.io/)
 
-https://cheat-sheet.streamlit.app/
+[Cheat sheet](https://cheat-sheet.streamlit.app/)
 
 
 ## Authentication
