@@ -1,3 +1,22 @@
+# Dashboard for motor monitoring
+
+This dashboard is a web-app built mainly in Python and JavaScript under the Streamlit framework.
+
+Functionality:
+
+- Visualize the sensor data, which is stored in MySQL database.
+- Support the signal processing calculation, including Fourier analysis and signal feature extraction.
+- Support a AI model (in Pytorch), variational autoencoder (VAE), which is used for anomaly detection.
+
+This project is for demo purpose.
+
+![image1](./demo/1.png)
+
+![image1](./demo/2.png)
+
+![image1](./demo/3.png)
+
+
 # Local start
 
 In Terminal:
