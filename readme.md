@@ -224,7 +224,9 @@ password = ""
 
 ## Docker Image
 
-- [Deploy Streamlit using Docke](https://docs.streamlit.io/deploy/tutorials/docker)
+- [Deploy Streamlit using Docker](https://docs.streamlit.io/deploy/tutorials/docker)
+- [Fails on mysqlclient installation](https://stackoverflow.com/questions/76533384/docker-alpine-build-fails-on-mysqlclient-installation-with-error-exception-can)
+- [Fails for h5py in python 3.9](https://stackoverflow.com/questions/78359706/docker-build-fails-for-h5py-in-python-3-9)
 
 ### 0. Pip freeze
 
