@@ -222,3 +222,28 @@ password = ""
 .gitignore the secrects.toml
 
 
+## Docker Image
+
+- [Deploy Streamlit using Docke](https://docs.streamlit.io/deploy/tutorials/docker)
+
+### 0. Pip freeze
+
+> $ pip list --format=freeze > requirements.txt
+
+### 1. Check Docker installation
+
+> $ docker --version
+
+### 2. Prepare the `Dockerfile`
+
+### 3. Build Docker image
+
+> $ docker build -t streamlit .
+
+### 4. List the Docker image
+
+> $ docker images
+
+### 5. Run Streamlit via Docker
+
+> $ docker run -p 8501:8501 streamlit
