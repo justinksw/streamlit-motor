@@ -227,6 +227,7 @@ password = ""
 - [Deploy Streamlit using Docker](https://docs.streamlit.io/deploy/tutorials/docker)
 - [Fails on mysqlclient installation](https://stackoverflow.com/questions/76533384/docker-alpine-build-fails-on-mysqlclient-installation-with-error-exception-can)
 - [Fails for h5py in python 3.9](https://stackoverflow.com/questions/78359706/docker-build-fails-for-h5py-in-python-3-9)
+- [apt-get install libsndfile1](https://stackoverflow.com/questions/55086834/cant-import-soundfile-python)
 
 ### 0. Pip freeze
 
@@ -249,3 +250,10 @@ password = ""
 ### 5. Run Streamlit via Docker
 
 > $ docker run -p 8501:8501 streamlit
+
+
+## Streamlit + MySQL
+
+> $ docker run --name docker_mysql -p 3307:3306 -e MYSQL_ROOT_PASSWORD=xxxxxx -d mysql
+
+> $ docker-compose up -d
