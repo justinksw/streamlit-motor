@@ -234,3 +234,5 @@ html
 html/*
 
 requirements.txt
+
+test.py
