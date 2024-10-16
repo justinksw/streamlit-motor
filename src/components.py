@@ -6,7 +6,9 @@ class Static:
 
     def infomation_card(self, motor_name, motor_condition, battery1, battery2):
 
-        motor_color = self.get_motor_color(motor_condition)
+        # !TEST CODE DUMMY INSPECTION DATE NEED CHANGE
+
+        motor_color, inspection_date = self.get_motor_color(motor_condition)
 
         batter1_color = self.get_battery_color(battery1)
         batter2_color = self.get_battery_color(battery2)
@@ -26,9 +28,13 @@ class Static:
                     display: inline-block;
                 }}
 
+                .motor-condition-text {{
+                    font-weight: bold;
+                }}
+
                 .condition-light {{
                     display: inline-block;
-                    margin-left: 10px;
+                    margin-left: 1px;
                     height: 20px;
                     width: 20px;
                     background-color: {motor_color};
@@ -37,7 +43,8 @@ class Static:
                 }}
 
                 .info {{
-                    padding: 10px;
+                    width: 100%;
+                    padding: 8px;
                 }}
 
                 .battery-info {{
@@ -98,7 +105,7 @@ class Static:
 
                 <div class="info status">
                     <div class="condition-text">
-                        <div> Status: {motor_condition} 
+                        <div> Status: <span class="motor-condition-text">{motor_condition} </span> 
                         </div>
                     </div>
                     
@@ -131,6 +138,10 @@ class Static:
                     </div>
                 </div>
 
+                <div class="info">
+                    <div class="last-inspection-date-info"> Last Inspection: {inspection_date} </div>
+                </div>
+
             </div>
 
 
@@ -155,7 +166,7 @@ class Static:
                 updateBatteryStatus();
             </script>
             """,
-            height=180,
+            height=200,
         )
         return None
 
@@ -163,29 +174,31 @@ class Static:
     def get_motor_color(motor_condition):
 
         if motor_condition == "Health":
-            return "#4CC790"
+            return "#4CC790", "2024/10/10"
 
         elif motor_condition == "Warn":
-            return "#FAFF02"
+            return "#ED7724", "2024/10/10"
 
-        elif motor_condition == "Damaged":
-            return "#ED7724"
+        # elif motor_condition == "Warn":
+        #     return "#FAFF02", "2024/10/10"
+        # elif motor_condition == "Damaged":
+        #     return "#ED7724", "2024/10/10"
 
         elif motor_condition == "Danger":
-            return "#F11502"
+            return "#F11502", "2024/10/10"
 
-        return "#F0F2F6"
+        return "#F0F2F6", "None"
 
     @staticmethod
     def get_battery_color(battery):
 
-        if (66 < battery <= 100):
+        if 66 < battery <= 100:
             return "#4CC790"
 
-        elif (33 < battery <= 66):
+        elif 33 < battery <= 66:
             return "#ED7724"
 
-        elif (0 < battery <= 33):
+        elif 0 < battery <= 33:
             return "#F11502"
 
         return "#F0F2F6"

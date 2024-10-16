@@ -15,45 +15,73 @@ class Overview:
 
     def infomation_card(self, name, id):
 
+        # if motor_condition == "Health":
+        #     return "#4CC790"
+        # elif motor_condition == "Warn":
+        #     return "#FAFF02"
+        # elif motor_condition == "Damaged":
+        #     return "#ED7724"
+        # elif motor_condition == "Danger":
+        #     return "#F11502"
+
         if id == "Motor 1":
             battery1 = int(random.random() * 100)
             battery2 = int(random.random() * 100)
             condition = "Health"
+            _color = "#4CC790"
 
         if id == "Motor 2":
             battery1 = int(random.random() * 100)
             battery2 = int(random.random() * 100)
             condition = "Warn"
+            _color = "#FAFF02"
 
         if id == "Motor 3":
             battery1 = int(random.random() * 100)
             battery2 = int(random.random() * 100)
             condition = "Warn"
+            _color = "#FAFF02"
 
         if id == "Motor 4":
             battery1 = int(random.random() * 100)
             battery2 = int(random.random() * 100)
             condition = "Warn"
+            _color = "#FAFF02"
 
         if id == "Motor 5":
             battery1 = int(random.random() * 100)
             battery2 = int(random.random() * 100)
             condition = "Danger"
+            _color = "#FAFF02"
 
         if id == "Motor 6":
             battery1 = 0
             battery2 = 0
             condition = "Unknown"
+            _color = "#FAFF02"
 
         if id == "Motor 7":
             battery1 = 0
             battery2 = 0
             condition = "Unknown"
+            _color = "#E6E6E6"
 
         if id == "Motor 8":
             battery1 = 0
             battery2 = 0
             condition = "Unknown"
+            _color = "#E6E6E6"
+
+        # st.markdown(
+        #     """
+        #     <style>
+        #         div[data-testid="stVerticalBlockBorderWrapper"] {
+        #             background-color: black;
+        #         }
+        #     </style>
+        #     """,
+        #     unsafe_allow_html=True,
+        # )
 
         with stylable_container(
             key="info_card",
