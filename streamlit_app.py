@@ -6,7 +6,8 @@ from src2.login import login
 
 
 st.set_page_config(
-    layout="wide"
+    layout="wide",
+    page_title="CAiRS Motor"
 )
 
 

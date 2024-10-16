@@ -44,7 +44,7 @@ class Detail:
         elif self.motor == "Motor 2":
             value = "Damaged"
             last_inspection_date = datetime.date(2023, 10, 26)
-        elif self.motor == 'Motor 3':
+        elif self.motor == "Motor 3":
             value = "Damaged"
             last_inspection_date = datetime.date(2023, 11, 4)
         elif self.motor == "Motor 4":
@@ -60,11 +60,9 @@ class Detail:
 
             col1, col2, col3, col4 = st.columns(4)
             col1.metric(label="Motor", value=f"{self.motor}")
-            col2.metric(label="Sensor",
-                        value=f"{st.session_state.selected_sensor}")
+            col2.metric(label="Sensor", value=f"{st.session_state.selected_sensor}")
             col3.metric(label="Condition", value=value)
-            col4.metric(
-                label="Since last inspection", value=f"{diff} day(s)")
+            col4.metric(label="Since last inspection", value=f"{diff} day(s)")
         return None
 
     def gauge_indicator(self):
@@ -79,7 +77,7 @@ class Detail:
         elif self.motor == "Motor 2":
             condition = "lub75"
             m2 = 2.2
-        elif self.motor == 'Motor 3':
+        elif self.motor == "Motor 3":
             condition = "lub25"
             m2 = 4.5
         elif self.motor == "Motor 4":
@@ -99,20 +97,18 @@ class Detail:
             X = df["data"].to_numpy()
 
             AI = AI_Model(
-                encoder_pt='./model/encoder1.pt',
-                deconde_pt='./model/decoder1.pt',)
+                encoder_pt="./model/encoder1.pt",
+                deconde_pt="./model/decoder1.pt",
+            )
 
             feature = AI.get_feature(X)
 
-            score = AI.anomaly_detection(
-                data=feature
-            )
+            score = AI.anomaly_detection(data=feature)
 
         container = st.container(height=None, border=True)
         with container:
 
-            col1, col2 = st.columns(
-                [6, 6], vertical_alignment="top", gap="medium")
+            col1, col2 = st.columns([6, 6], vertical_alignment="top", gap="medium")
 
             with col1:
                 STATIC.gauge_chart_ai(value=score)
@@ -132,7 +128,7 @@ class Detail:
             condition = "lub100"
         elif self.motor == "Motor 2":
             condition = "lub75"
-        elif self.motor == 'Motor 3':
+        elif self.motor == "Motor 3":
             condition = "lub25"
         elif self.motor == "Motor 4":
             condition = "lub10"
@@ -154,8 +150,7 @@ class Detail:
             container = st.container(height=None, border=True)
             with container:
 
-                col1, col2 = st.columns(
-                    [6, 6], vertical_alignment="top", gap="medium")
+                col1, col2 = st.columns([6, 6], vertical_alignment="top", gap="medium")
 
                 if not st.session_state.more_calculation:
                     st.button("More", on_click=show_more_calculation)
@@ -169,18 +164,21 @@ class Detail:
 
                 if st.session_state.more_calculation:
                     st.subheader("Skew")
-                    st.line_chart(data=data.skew_sliding(),
-                                  x_label="Windows", y_label="Skew")
+                    st.line_chart(
+                        data=data.skew_sliding(), x_label="Windows", y_label="Skew"
+                    )
 
             with col2:
                 st.subheader("FFT")
-                st.line_chart(dff.head(500), x="Frequency (Hz)",
-                              y="Coefficient")
+                st.line_chart(dff.head(500), x="Frequency (Hz)", y="Coefficient")
 
                 if st.session_state.more_calculation:
                     st.subheader("Kurtosis")
-                    st.line_chart(data=data.kurtosis_sliding(),
-                                  x_label="Windows", y_label="Kurtosis",)
+                    st.line_chart(
+                        data=data.kurtosis_sliding(),
+                        x_label="Windows",
+                        y_label="Kurtosis",
+                    )
 
         return None
 
