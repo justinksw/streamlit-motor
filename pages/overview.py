@@ -72,6 +72,7 @@ class Overview:
             condition = "Unknown"
             _color = "#E6E6E6"
 
+        # Not worked. This will change all components.
         # st.markdown(
         #     """
         #     <style>
