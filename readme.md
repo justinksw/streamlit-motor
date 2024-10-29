@@ -187,11 +187,19 @@ https://formulae.brew.sh/formula/mysql
 Ref: [Install mysql using homebrew](https://myapollo.com.tw/blog/install-mysql-using-homebrew/)
 
 
+## Remove MySQL on Mac via HomeBrew
+
+https://cloud.baidu.com/article/3301864
+
+**!NOTE: DO NOT TRY TO INSTALL NEW VERSION OF SQL BY NO REASON**
+
+
 # Connection between MySQL and Streamlit
 
 ## 1. Download Python MySQL connector
 
 > $ pip install mysql-connector
+
 > $ pip install SQLAlchemy
 
 ## 2. Local host
