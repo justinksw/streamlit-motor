@@ -1,28 +1,26 @@
-import pandas as pd
+# import pandas as pd
 
-import streamlit as st
-import streamlit.components.v1 as components
-from streamlit_extras.stylable_container import stylable_container
+# import streamlit as st
 
-from src2.navigation import navigation
+# from src2.navigation import navigation
 
-navigation()
+# navigation()
 
-st.write("")
+# st.write("")
 
-col1, col2 = st.columns([0.2, 0.8], gap="large", vertical_alignment="top")
+# col1, col2 = st.columns([0.2, 0.8], gap="large", vertical_alignment="top")
 
-with col1:
-    option = st.selectbox(
-        label="Choose a label",
-        options=("lub100", "lub75", "lub25", "lub10", "lub2_5"),
-    )
+# with col1:
+#     option = st.selectbox(
+#         label="Choose a label",
+#         options=("lub100", "lub75", "lub25", "lub10", "lub2_5"),
+#     )
 
-conn = st.connection('mysql', type='sql')
-query = f"SELECT * FROM lub WHERE label='{option}';"
+# conn = st.connection("mysql", type="sql")
+# query = f"SELECT * FROM lub WHERE label='{option}';"
 
-table = conn.query(query, ttl=0)
-df = pd.DataFrame(table)
+# table = conn.query(query, ttl=0)
+# df = pd.DataFrame(table)
 
-with col2:
-    st.dataframe(df.head(50))
+# with col2:
+#     st.dataframe(df.head(50))
