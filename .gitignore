@@ -236,3 +236,6 @@ html/*
 requirements.txt
 
 test.py
+
+data_test
+data_test/*
