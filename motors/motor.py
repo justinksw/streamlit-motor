@@ -67,36 +67,52 @@ class Motor:
         self.sensor_id_drive = sensor_id_drive  # e.g. "xxxx.cb"
         self.sensor_id_non_drive = sensor_id_non_drive  # e.g. "xxxx.0f"
 
-    def get_latest_data(self, folder_dir, sensor=0):
-        """
-        sensor: 0 -> drive end sensor id
+    def get_latest_data(self, folder_dir):
 
-        sensor: 1 -> non-drive end sensor id
-        """
+        motor_data = {
+            "Motor Name": [],
+            "Data": [],
+            "Sensor ID": [],
+            "Sensor Loc": [],
+            "Battery": [],
+        }
 
         files = FileIO.get_subdirectories(folder_dir)
         files.sort(reverse=True)
 
+        # == Drive-end sensor == #
+
         for f in files:
             _, file_extension = os.path.splitext(f)
-
             if file_extension != ".json":
                 continue
-
-            # print(file_extension)
-
             datafile = MotorJsonFileLocal(f)
 
-            if datafile.get_device_id() == self.sensor_id_drive and sensor == 0:
-                break
-            elif datafile.get_device_id() == self.sensor_id_non_drive and sensor == 1:
+            if datafile.get_device_id() == self.sensor_id_drive:
                 break
 
-        data = datafile.get_data_array()
-        battery = datafile.get_battery_value()
+        motor_data["Motor Name"].append(self.motor_name)
+        motor_data["Data"].append(datafile.get_data_array())
+        motor_data["Sensor ID"].append(datafile.get_device_id())
+        motor_data["Sensor Loc"].append("Drive-end")
 
-        # print(datafile.get_file_name())
-        return data, battery
+        # == Non drive-end sensor == #
+
+        for f in files:
+            _, file_extension = os.path.splitext(f)
+            if file_extension != ".json":
+                continue
+            datafile = MotorJsonFileLocal(f)
+
+            if datafile.get_device_id() == self.sensor_id_non_drive:
+                break
+
+        motor_data["Motor Name"].append(self.motor_name)
+        motor_data["Data"].append(datafile.get_data_array())
+        motor_data["Sensor ID"].append(datafile.get_device_id())
+        motor_data["Sensor Loc"].append("Non-drive-end")
+
+        return motor_data
 
     def get_historical_data(self, folder_dir):
 
@@ -104,7 +120,7 @@ class Motor:
         files.sort()
 
         historical_data = {
-            "Filename": [],
+            "File Name": [],
             "RMS X": [],
             "RMS Y": [],
             "RMS Z": [],
@@ -128,7 +144,7 @@ class Motor:
             # data_dc = data - dc
             rms = np.sqrt(np.mean(data**2, axis=0))
 
-            historical_data["Filename"].append(datafile.get_file_name())
+            historical_data["File Name"].append(datafile.get_file_name())
             historical_data["RMS X"].append(rms[0])
             historical_data["RMS Y"].append(rms[1])
             historical_data["RMS Z"].append(rms[2])

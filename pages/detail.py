@@ -4,7 +4,8 @@ import pandas as pd
 import streamlit as st
 
 from src.components import Static
-from src.database import Database
+
+# from src.database import Database
 from src2.ai_model import AI_Model
 
 from kswutils.calculator import calc_fft
@@ -12,7 +13,7 @@ from kswutils.signalprocessing import Sliding1d
 
 
 STATIC = Static()
-DATABASE = Database()
+# DATABASE = Database()
 
 
 class Detail:
@@ -90,20 +91,20 @@ class Detail:
         else:
             m2 = 0
 
-        if condition:
+        # if condition:
 
-            df = DATABASE.get_data(condition)
+        # df = DATABASE.get_data(condition)
 
-            X = df["data"].to_numpy()
+        # X = df["data"].to_numpy()
 
-            AI = AI_Model(
-                encoder_pt="./model/encoder1.pt",
-                deconde_pt="./model/decoder1.pt",
-            )
+        # AI = AI_Model(
+        #     encoder_pt="./model/encoder1.pt",
+        #     deconde_pt="./model/decoder1.pt",
+        # )
 
-            feature = AI.get_feature(X)
+        # feature = AI.get_feature(X)
 
-            score = AI.anomaly_detection(data=feature)
+        # score = AI.anomaly_detection(data=feature)
 
         container = st.container(height=None, border=True)
         with container:
@@ -111,7 +112,7 @@ class Detail:
             col1, col2 = st.columns([6, 6], vertical_alignment="top", gap="medium")
 
             with col1:
-                STATIC.gauge_chart_ai(value=score)
+                STATIC.gauge_chart_ai(value=100)
 
             with col2:
                 STATIC.gauge_chart_rms(value=m2)
@@ -135,50 +136,50 @@ class Detail:
         elif self.motor == "Motor 5":
             condition = "lub2_5"
 
-        if condition:
-            df = DATABASE.get_data(condition)
+        # if condition:
+        #     df = DATABASE.get_data(condition)
 
-            X = df["data"].to_numpy()
+        # X = df["data"].to_numpy()
 
-            data = Sliding1d(X, window=2560, step=256)
-            data_rms = data.rms_sliding()
+        # data = Sliding1d(X, window=2560, step=256)
+        # data_rms = data.rms_sliding()
 
-            fft_x, fft_y = calc_fft(X, 25600)
-            dff = {"Frequency (Hz)": fft_x, "Coefficient": fft_y}
-            dff = pd.DataFrame(dff)
+        # fft_x, fft_y = calc_fft(X, 25600)
+        # dff = {"Frequency (Hz)": fft_x, "Coefficient": fft_y}
+        # dff = pd.DataFrame(dff)
 
-            container = st.container(height=None, border=True)
-            with container:
+        # container = st.container(height=None, border=True)
+        # with container:
 
-                col1, col2 = st.columns([6, 6], vertical_alignment="top", gap="medium")
+        #     col1, col2 = st.columns([6, 6], vertical_alignment="top", gap="medium")
 
-                if not st.session_state.more_calculation:
-                    st.button("More", on_click=show_more_calculation)
+        #     if not st.session_state.more_calculation:
+        #         st.button("More", on_click=show_more_calculation)
 
-                else:
-                    st.button("Less", on_click=hide_more_calculation)
+        #     else:
+        #         st.button("Less", on_click=hide_more_calculation)
 
-            with col1:
-                st.subheader("RMS")
-                st.line_chart(data=data_rms, x_label="Windows", y_label="RMS")
+        # with col1:
+        #     st.subheader("RMS")
+        #     st.line_chart(data=data_rms, x_label="Windows", y_label="RMS")
 
-                if st.session_state.more_calculation:
-                    st.subheader("Skew")
-                    st.line_chart(
-                        data=data.skew_sliding(), x_label="Windows", y_label="Skew"
-                    )
+        #     if st.session_state.more_calculation:
+        #         st.subheader("Skew")
+        #         st.line_chart(
+        #             data=data.skew_sliding(), x_label="Windows", y_label="Skew"
+        #         )
 
-            with col2:
-                st.subheader("FFT")
-                st.line_chart(dff.head(500), x="Frequency (Hz)", y="Coefficient")
+        # with col2:
+        #     st.subheader("FFT")
+        #     st.line_chart(dff.head(500), x="Frequency (Hz)", y="Coefficient")
 
-                if st.session_state.more_calculation:
-                    st.subheader("Kurtosis")
-                    st.line_chart(
-                        data=data.kurtosis_sliding(),
-                        x_label="Windows",
-                        y_label="Kurtosis",
-                    )
+        #     if st.session_state.more_calculation:
+        #         st.subheader("Kurtosis")
+        #         st.line_chart(
+        #             data=data.kurtosis_sliding(),
+        #             x_label="Windows",
+        #             y_label="Kurtosis",
+        #         )
 
         return None
 

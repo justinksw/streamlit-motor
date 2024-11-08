@@ -15,15 +15,6 @@ class Overview:
 
     def infomation_card(self, name, id):
 
-        # if motor_condition == "Health":
-        #     return "#4CC790"
-        # elif motor_condition == "Warn":
-        #     return "#FAFF02"
-        # elif motor_condition == "Damaged":
-        #     return "#ED7724"
-        # elif motor_condition == "Danger":
-        #     return "#F11502"
-
         if id == "Motor 1":
             battery1 = int(random.random() * 100)
             battery2 = int(random.random() * 100)

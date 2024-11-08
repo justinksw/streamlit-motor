@@ -4,11 +4,11 @@ from streamlit_extras.stylable_container import stylable_container
 
 class Static:
 
-    def infomation_card(self, motor_name, motor_condition, battery1, battery2):
+    def infomation_card(
+        self, motor_name, motor_condition, battery1, battery2, inspection_date="None"
+    ):
 
-        # !TEST CODE DUMMY INSPECTION DATE NEED CHANGE
-
-        motor_color, inspection_date = self.get_motor_color(motor_condition)
+        motor_color = self.get_motor_color(motor_condition)
 
         batter1_color = self.get_battery_color(battery1)
         batter2_color = self.get_battery_color(battery2)
@@ -185,9 +185,9 @@ class Static:
         #     return "#ED7724", "2024/10/10"
 
         elif motor_condition == "Danger":
-            return "#F11502", "2024/10/10"
+            return "#F11502"
 
-        return "#F0F2F6", "None"
+        return "#F0F2F6"
 
     @staticmethod
     def get_battery_color(battery):
