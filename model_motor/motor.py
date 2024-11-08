@@ -12,18 +12,16 @@ from kswutils_fileio.fileio import FileIO
 class MotorJsonFileLocal:
     def __init__(self, file) -> None:
 
-        self.file = file
-
-        self.data_json = json.load(open(self.file))
+        self.name = file.name
+        self.data_json = json.loads(file.getvalue())
 
     def get_file_name(self):
         # file name is unix timestamp, it is counting seconds
-        return os.path.basename(self.file).split(".")[0]
+        return self.name.split(".")[0]
 
     def get_timestamp_unix(self):
-        name = self.get_file_name()
 
-        ts = datetime.fromtimestamp(int(int(name.split(".")[0]) / 1000))
+        ts = datetime.fromtimestamp(int(int(self.name.split(".")[0]) / 1000))
         # .replace(tzinfo=pytz.utc)
         return ts
 

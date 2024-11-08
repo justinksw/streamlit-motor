@@ -132,7 +132,7 @@ class Analysis:
 
             col1, col2, col3, col4, col5 = st.columns(5)
             with col1:
-                ref["RPM"] = int(st.text_input("Rotation Speed (RPM)", "1840")) / 60
+                ref["RPM"] = int(st.text_input("Rotation Speed (RPM)", "1488")) / 60
                 ref["Show RPM"] = st.checkbox("Show RPM")
 
             with col2:
@@ -179,10 +179,11 @@ class Analysis:
 
                 col1, col2 = st.columns(2, gap="medium")
                 with col1:
-                    st.plotly_chart(plot.plot_envelope_fft_with_filter(ref))
-                    st.plotly_chart(plot.plot_envelope_fft_with_denoising_filter(ref))
-                with col2:
                     st.plotly_chart(plot.plot_envelope_fft_with_wavelet_denosing(ref))
+                with col2:
+                    st.write("")
+                    # st.plotly_chart(plot.plot_envelope_fft_with_filter(ref))
+                    # st.plotly_chart(plot.plot_envelope_fft_with_denoising_filter(ref))
 
         return None
 
