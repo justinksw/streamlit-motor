@@ -76,24 +76,24 @@ class Analysis:
 
         # == ROW 2 == #
 
-        container = st.container(border=True)
-        with container:
+        # container = st.container(border=True)
+        # with container:
 
-            st.subheader("Select a Time Window [Sec]")
+        #     st.subheader("Select a Time Window [Sec]")
 
-            d = st.slider(
-                "Slide to select a time window to inspect",
-                min_value=0.0,
-                max_value=5.0,
-                value=(1.0, 1.5),
-                step=0.05,
-            )
+        #     d = st.slider(
+        #         "Slide to select a time window to inspect",
+        #         min_value=0.0,
+        #         max_value=5.0,
+        #         value=(1.0, 1.5),
+        #         step=0.05,
+        #     )
 
         # == Plot Setting == #
 
         plot = Plots(
             files=self.files,
-            selected_time_window=d,
+            # selected_time_window=d,
         )
 
         # == ROW 3 == #

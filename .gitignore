@@ -242,3 +242,6 @@ data_test/*
 
 ai_model
 ai_model/*
+
+model_ai
+model_ai/*
