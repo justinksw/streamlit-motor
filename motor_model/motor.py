@@ -59,6 +59,16 @@ class MotorJsonFileLocal:
 
         return data_df_T.to_numpy()
 
+    def get_data(self):
+        # json -> df
+        data_df = pd.DataFrame(self.data_json["sensor_data"]["data"])
+        # transpose
+        data_df_T = data_df.T
+
+        data_array = data_df_T.to_numpy()
+
+        return data_array[:, 2]
+
 
 class Motor:
     def __init__(self, motor_name: str, sensor_id_drive: str, sensor_id_non_drive: str):
