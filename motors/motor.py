@@ -160,3 +160,12 @@ class Motor:
             historical_data["Battery"].append(datafile.get_battery_value())
 
         return historical_data
+
+    def get_status(self):
+        return "Health"
+
+    def get_battery(self):
+        return "100", "100"
+
+    def get_last_inspection_date(self):
+        return "2024/10/24"
