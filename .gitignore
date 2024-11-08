@@ -239,3 +239,6 @@ test.py
 
 data_test
 data_test/*
+
+ai_model
+ai_model/*
