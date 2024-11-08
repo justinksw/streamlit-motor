@@ -170,6 +170,9 @@ class Motor:
         return historical_data
 
     def get_status(self):
+
+        # calculate the rms, compare to standard
+
         return "Health"
 
     def get_battery(self):
