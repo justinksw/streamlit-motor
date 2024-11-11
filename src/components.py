@@ -174,10 +174,10 @@ class Static:
     def get_motor_color(motor_condition):
 
         if motor_condition == "Health":
-            return "#4CC790", "2024/10/10"
+            return "#4CC790"
 
         elif motor_condition == "Warn":
-            return "#ED7724", "2024/10/10"
+            return "#ED7724"
 
         # elif motor_condition == "Warn":
         #     return "#FAFF02", "2024/10/10"

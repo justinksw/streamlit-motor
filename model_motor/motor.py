@@ -88,6 +88,8 @@ class Motor:
         self.sensor_id_non_drive = sensor_id_non_drive  # e.g. "xxxx.0f"
         self.datafolder = datafolder
 
+        self.motor_data_latest = self.get_latest_data()
+
     def get_latest_data(self):
 
         motor_data = {
@@ -98,40 +100,49 @@ class Motor:
             "Battery": [],
         }
 
-        files = FileIO.get_subdirectories(self.datafolder)
-        files.sort(reverse=True)
+        flag1 = False
+        flag2 = False
 
-        # == Drive-end sensor == #
+        if os.path.exists(self.datafolder):
 
-        for f in files:
-            _, file_extension = os.path.splitext(f)
-            if file_extension != ".json":
-                continue
-            datafile = MotorJsonFile(f)
+            files = FileIO.get_subdirectories(self.datafolder)
+            files.sort(reverse=True)
 
-            if datafile.get_device_id() == self.sensor_id_drive:
-                break
+            for f in files:
+                _, file_extension = os.path.splitext(f)
+                if file_extension != ".json":
+                    continue
+                datafile = MotorJsonFile(f, local=True)
 
-        motor_data["Motor Name"].append(self.motor_name)
-        motor_data["Data"].append(datafile.get_data_array())
-        motor_data["Sensor ID"].append(datafile.get_device_id())
-        motor_data["Sensor Loc"].append("Drive-end")
+                if not flag1 and datafile.get_device_id() == self.sensor_id_drive:
 
-        # == Non drive-end sensor == #
+                    motor_data["Motor Name"].append(self.motor_name)
+                    motor_data["Data"].append(datafile.get_data_array())
+                    motor_data["Sensor ID"].append(datafile.get_device_id())
+                    motor_data["Sensor Loc"].append("Drive-end")
 
-        for f in files:
-            _, file_extension = os.path.splitext(f)
-            if file_extension != ".json":
-                continue
-            datafile = MotorJsonFile(f)
+                    flag1 = True
 
-            if datafile.get_device_id() == self.sensor_id_non_drive:
-                break
+                if not flag2 and datafile.get_device_id() == self.sensor_id_non_drive:
 
-        motor_data["Motor Name"].append(self.motor_name)
-        motor_data["Data"].append(datafile.get_data_array())
-        motor_data["Sensor ID"].append(datafile.get_device_id())
-        motor_data["Sensor Loc"].append("Non-drive-end")
+                    motor_data["Motor Name"].append(self.motor_name)
+                    motor_data["Data"].append(datafile.get_data_array())
+                    motor_data["Sensor ID"].append(datafile.get_device_id())
+                    motor_data["Sensor Loc"].append("Non-drive-end")
+
+                    flag2 = True
+
+                if flag1 and flag2:
+                    break
+
+        if not flag1 or not flag2:
+            return {
+                "Motor Name": [self.motor_name],
+                "Data": [],
+                "Sensor ID": [],
+                "Sensor Loc": [],
+                "Battery": [],
+            }
 
         return motor_data
 
@@ -140,14 +151,25 @@ class Motor:
 
     def get_condition(self):
 
+        if not self.motor_data_latest["Data"]:
+            return "N/A"
+
         # calculate the rms, compare to standard
 
         return "Health"
 
     def get_battery(self):
+
+        if not self.motor_data_latest["Data"]:
+            return (0, 0)
+
         return ("100", "100")
 
     def get_last_inspection_date(self):
+
+        if not self.motor_data_latest["Data"]:
+            return "N/A"
+
         return "2024/10/24"
 
 
