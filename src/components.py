@@ -192,13 +192,13 @@ class Static:
     @staticmethod
     def get_battery_color(battery):
 
-        if 66 < battery <= 100:
+        if 66.0 < float(battery) <= 100.0:
             return "#4CC790"
 
-        elif 33 < battery <= 66:
+        elif 33.0 < float(battery) <= 66.0:
             return "#ED7724"
 
-        elif 0 < battery <= 33:
+        elif 0.0 < float(battery) <= 33.0:
             return "#F11502"
 
         return "#F0F2F6"

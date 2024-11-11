@@ -9,11 +9,16 @@ import pandas as pd
 from kswutils_fileio.fileio import FileIO
 
 
-class MotorJsonFileLocal:
-    def __init__(self, file) -> None:
+class MotorJsonFile:
+    def __init__(self, file, local=False) -> None:
 
-        self.name = file.name
-        self.data_json = json.loads(file.getvalue())
+        if local:
+            self.name = os.path.basename(file)
+            self.data_json = json.load(open(file))
+
+        else:  # Streamlit file uploader
+            self.name = file.name
+            self.data_json = json.loads(file.getvalue())
 
     def get_file_name(self):
         # file name is unix timestamp, it is counting seconds
@@ -69,13 +74,21 @@ class MotorJsonFileLocal:
 
 
 class Motor:
-    def __init__(self, motor_name: str, sensor_id_drive: str, sensor_id_non_drive: str):
+
+    def __init__(
+        self,
+        motor_name: str,
+        sensor_id_drive: str,
+        sensor_id_non_drive: str,
+        datafolder: str,
+    ):
 
         self.motor_name = motor_name  # e.g. "Motor 1"
         self.sensor_id_drive = sensor_id_drive  # e.g. "xxxx.cb"
         self.sensor_id_non_drive = sensor_id_non_drive  # e.g. "xxxx.0f"
+        self.datafolder = datafolder
 
-    def get_latest_data(self, folder_dir):
+    def get_latest_data(self):
 
         motor_data = {
             "Motor Name": [],
@@ -85,7 +98,7 @@ class Motor:
             "Battery": [],
         }
 
-        files = FileIO.get_subdirectories(folder_dir)
+        files = FileIO.get_subdirectories(self.datafolder)
         files.sort(reverse=True)
 
         # == Drive-end sensor == #
@@ -94,7 +107,7 @@ class Motor:
             _, file_extension = os.path.splitext(f)
             if file_extension != ".json":
                 continue
-            datafile = MotorJsonFileLocal(f)
+            datafile = MotorJsonFile(f)
 
             if datafile.get_device_id() == self.sensor_id_drive:
                 break
@@ -110,7 +123,7 @@ class Motor:
             _, file_extension = os.path.splitext(f)
             if file_extension != ".json":
                 continue
-            datafile = MotorJsonFileLocal(f)
+            datafile = MotorJsonFile(f)
 
             if datafile.get_device_id() == self.sensor_id_non_drive:
                 break
@@ -122,61 +135,65 @@ class Motor:
 
         return motor_data
 
-    def get_historical_data(self, folder_dir):
+    def get_motor_name(self):
+        return self.motor_name
 
-        files = FileIO.get_subdirectories(folder_dir)
-        files.sort()
-
-        historical_data = {
-            "File Name": [],
-            "RMS X": [],
-            "RMS Y": [],
-            "RMS Z": [],
-            "TS HK": [],
-            "Sensor ID": [],
-            "Sensor Loc": [],
-            "Battery": [],
-        }
-
-        for f in files:
-            _, file_extension = os.path.splitext(f)
-
-            if file_extension != ".json":
-                continue
-
-            datafile = MotorJsonFileLocal(f)
-
-            data = datafile.get_data_array()
-
-            # dc = np.repeat(np.array([[0, 0, 1]]), repeats=len(data), axis=0)
-            # data_dc = data - dc
-            rms = np.sqrt(np.mean(data**2, axis=0))
-
-            historical_data["File Name"].append(datafile.get_file_name())
-            historical_data["RMS X"].append(rms[0])
-            historical_data["RMS Y"].append(rms[1])
-            historical_data["RMS Z"].append(rms[2])
-            historical_data["TS HK"].append(datafile.get_timestamp_utc_hk())
-            historical_data["Sensor ID"].append(datafile.get_device_id())
-
-            if datafile.get_device_id() == self.sensor_id_drive:
-                historical_data["Sensor Loc"].append("Drive-end")
-
-            elif datafile.get_device_id() == self.sensor_id_non_drive:
-                historical_data["Sensor Loc"].append("Non-drive-end")
-
-            historical_data["Battery"].append(datafile.get_battery_value())
-
-        return historical_data
-
-    def get_status(self):
+    def get_condition(self):
 
         # calculate the rms, compare to standard
 
         return "Health"
 
     def get_battery(self):
-        return "100", "100"
+        return ("100", "100")
 
     def get_last_inspection_date(self):
         return "2024/10/24"
+
+
+def get_historical_data(folder_dir):
+
+    files = FileIO.get_subdirectories(folder_dir)
+    files.sort()
+
+    historical_data = {
+        "File Name": [],
+        "RMS X": [],
+        "RMS Y": [],
+        "RMS Z": [],
+        "TS HK": [],
+        "Sensor ID": [],
+        # "Sensor Loc": [],
+        "Battery": [],
+    }
+
+    for f in files:
+        _, file_extension = os.path.splitext(f)
+
+        if file_extension != ".json":
+            continue
+
+        datafile = MotorJsonFile(f, local=True)
+
+        data = datafile.get_data_array()
+
+        # dc = np.repeat(np.array([[0, 0, 1]]), repeats=len(data), axis=0)
+        # data_dc = data - dc
+        rms = np.sqrt(np.mean(data**2, axis=0))
+
+        historical_data["File Name"].append(datafile.get_file_name())
+        historical_data["RMS X"].append(rms[0])
+        historical_data["RMS Y"].append(rms[1])
+        historical_data["RMS Z"].append(rms[2])
+        historical_data["TS HK"].append(datafile.get_timestamp_utc_hk())
+        historical_data["Sensor ID"].append(datafile.get_device_id())
+
+        # if datafile.get_device_id() == self.sensor_id_drive:
+        #     historical_data["Sensor Loc"].append("Drive-end")
+
+        # elif datafile.get_device_id() == self.sensor_id_non_drive:
+        #     historical_data["Sensor Loc"].append("Non-drive-end")
+
+        historical_data["Battery"].append(datafile.get_battery_value())
+
+    return historical_data

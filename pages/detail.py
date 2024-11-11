@@ -5,7 +5,6 @@ import streamlit as st
 
 from src.components import Static
 
-# from src.database import Database
 from src2.ai_model import AI_Model
 
 from kswutils.calculator import calc_fft
@@ -13,7 +12,6 @@ from kswutils.signalprocessing import Sliding1d
 
 
 STATIC = Static()
-# DATABASE = Database()
 
 
 class Detail:

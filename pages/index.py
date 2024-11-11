@@ -1,7 +1,7 @@
 import streamlit as st
 
-from pages_live.detail import Detail
-from pages_live.overview import Overview
+from pages.detail import Detail
+from pages.overview import Overview
 
 from src2.navigation import navigation
 
