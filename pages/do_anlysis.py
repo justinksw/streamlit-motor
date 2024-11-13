@@ -3,37 +3,39 @@ import streamlit as st
 from src2.plots import Plots
 from model_motor.motor import MotorJsonFile
 
+from src.components import Static
+
+STATIC = Static()
+
 
 class Analysis:
     def __init__(self):
         pass
 
-    # def __init__(self, files, local=False):
+    @staticmethod
+    def write_metrics(motor_name, sensor_id, motor_condition, day_diff):
+        container = st.container(height=None, border=True)
+        with container:
+            col1, col2, col3, col4 = st.columns(4)
 
-    # Local analysis: files: directories
-    # Online analysis: files: streamlit upload file objects
+            col1.metric(label="Motor", value=f"{motor_name}")
+            col2.metric(label="Sensor", value=f"{sensor_id}")
+            col3.metric(label="Condition", value=motor_condition)
+            col4.metric(label="Since last inspection", value=f"{day_diff} day(s)")
 
-    # self.files = files
-    # self.local = local
+    @staticmethod
+    def gauge_indicator(rms, ai_score):
+        container = st.container(height=None, border=True)
+        with container:
+            col1, col2 = st.columns([6, 6], vertical_alignment="top", gap="medium")
 
-    # def metrix(self):
+            with col1:
+                STATIC.gauge_chart_ai(value=ai_score)
+            with col2:
+                STATIC.gauge_chart_rms(value=rms)
 
-    #     file = self.files[0]
-    #     datafile = MotorJsonFile(file, self.local)
-
-    #     motor_name =
-
-    #     container = st.container(height=None, border=True)
-    #     with container:
-
-    #         col1, col2, col3, col4 = st.columns(4)
-    #         col1.metric(label="Motor", value=f"{self.motor}")
-    #         col2.metric(label="Sensor", value=f"{st.session_state.selected_sensor}")
-    #         col3.metric(label="Condition", value=value)
-    #         col4.metric(label="Since last inspection", value=f"{diff} day(s)")
-
-    def plot_charts(self, x, y, labels):
-
+    @staticmethod
+    def plot_charts(x, y, labels):
         container = st.container(border=True)
         with container:
             col1, col2, col3 = st.columns(3)
