@@ -16,7 +16,11 @@ STATIC = Static()
 
 class Detail:
     def __init__(self) -> None:
-        self.motor = st.session_state.selected_motor
+
+        self.selected_motor_name = st.session_state.selected_motor
+        self.motors = st.session_state.motors
+
+        self.selected_motor = self.motors[self.selected_motor_name]
 
         st.write(datetime.date.today())
 
@@ -37,102 +41,103 @@ class Detail:
 
     def text_metrics(self):
 
-        if self.motor == "Motor 1":
-            value = "Good"
-            last_inspection_date = datetime.date(2023, 10, 20)
-        elif self.motor == "Motor 2":
-            value = "Damaged"
-            last_inspection_date = datetime.date(2023, 10, 26)
-        elif self.motor == "Motor 3":
-            value = "Damaged"
-            last_inspection_date = datetime.date(2023, 11, 4)
-        elif self.motor == "Motor 4":
-            value = "Damaged"
-            last_inspection_date = datetime.date(2023, 11, 1)
-        elif self.motor == "Motor 5":
-            value = "Danger"
-            last_inspection_date = datetime.date(2024, 1, 18)
-        diff = abs(self.datetime_now - last_inspection_date).days
+        # if self.motor == "Motor 1":
+        #     value = "Good"
+        #     last_inspection_date = datetime.date(2023, 10, 20)
+        # elif self.motor == "Motor 2":
+        #     value = "Damaged"
+        #     last_inspection_date = datetime.date(2023, 10, 26)
+        # elif self.motor == "Motor 3":
+        #     value = "Damaged"
+        #     last_inspection_date = datetime.date(2023, 11, 4)
+        # elif self.motor == "Motor 4":
+        #     value = "Damaged"
+        #     last_inspection_date = datetime.date(2023, 11, 1)
+        # elif self.motor == "Motor 5":
+        #     value = "Danger"
+        #     last_inspection_date = datetime.date(2024, 1, 18)
+
+        # diff = abs(self.datetime_now - last_inspection_date).days
 
         container = st.container(height=None, border=True)
         with container:
 
-            col1, col2, col3, col4 = st.columns(4)
-            col1.metric(label="Motor", value=f"{self.motor}")
+            col1, col2, col3 = st.columns(3)
+            col1.metric(label="Motor", value=f"{self.selected_motor_name}")
             col2.metric(label="Sensor", value=f"{st.session_state.selected_sensor}")
-            col3.metric(label="Condition", value=value)
-            col4.metric(label="Since last inspection", value=f"{diff} day(s)")
+            col3.metric(label="Condition", value=self.selected_motor.get_condition())
+            # col4.metric(label="Since last inspection", value=f"{diff} day(s)")
         return None
 
-    def gauge_indicator(self):
+        # def gauge_indicator(self):
 
-        st.header("Health Indicator")
+        #     st.header("Health Indicator")
 
-        condition = ""
+        #     condition = ""
 
-        if self.motor == "Motor 1":
-            condition = "lub100"
-            m2 = 0.8
-        elif self.motor == "Motor 2":
-            condition = "lub75"
-            m2 = 2.2
-        elif self.motor == "Motor 3":
-            condition = "lub25"
-            m2 = 4.5
-        elif self.motor == "Motor 4":
-            condition = "lub10"
-            m2 = 5.5
-        elif self.motor == "Motor 5":
-            condition = "lub2_5"
-            m2 = 12
+        #     if self.motor == "Motor 1":
+        #         condition = "lub100"
+        #         m2 = 0.8
+        #     elif self.motor == "Motor 2":
+        #         condition = "lub75"
+        #         m2 = 2.2
+        #     elif self.motor == "Motor 3":
+        #         condition = "lub25"
+        #         m2 = 4.5
+        #     elif self.motor == "Motor 4":
+        #         condition = "lub10"
+        #         m2 = 5.5
+        #     elif self.motor == "Motor 5":
+        #         condition = "lub2_5"
+        #         m2 = 12
 
-        else:
-            m2 = 0
+        #     else:
+        #         m2 = 0
 
-        # if condition:
+        #     # if condition:
 
-        # df = DATABASE.get_data(condition)
+        #     # df = DATABASE.get_data(condition)
 
-        # X = df["data"].to_numpy()
+        #     # X = df["data"].to_numpy()
 
-        # AI = AI_Model(
-        #     encoder_pt="./model/encoder1.pt",
-        #     deconde_pt="./model/decoder1.pt",
-        # )
+        #     # AI = AI_Model(
+        #     #     encoder_pt="./model/encoder1.pt",
+        #     #     deconde_pt="./model/decoder1.pt",
+        #     # )
 
-        # feature = AI.get_feature(X)
+        #     # feature = AI.get_feature(X)
 
-        # score = AI.anomaly_detection(data=feature)
+        #     # score = AI.anomaly_detection(data=feature)
 
-        container = st.container(height=None, border=True)
-        with container:
+        #     container = st.container(height=None, border=True)
+        #     with container:
 
-            col1, col2 = st.columns([6, 6], vertical_alignment="top", gap="medium")
+        #         col1, col2 = st.columns([6, 6], vertical_alignment="top", gap="medium")
 
-            with col1:
-                STATIC.gauge_chart_ai(value=100)
+        #         with col1:
+        #             STATIC.gauge_chart_ai(value=100)
 
-            with col2:
-                STATIC.gauge_chart_rms(value=m2)
+        #         with col2:
+        #             STATIC.gauge_chart_rms(value=m2)
 
-        return None
+        #     return None
 
-    def write_df(self):
+        # def write_df(self):
 
-        st.header("Motor Data")
+        #     st.header("Motor Data")
 
-        condition = ""
+        #     condition = ""
 
-        if self.motor == "Motor 1":
-            condition = "lub100"
-        elif self.motor == "Motor 2":
-            condition = "lub75"
-        elif self.motor == "Motor 3":
-            condition = "lub25"
-        elif self.motor == "Motor 4":
-            condition = "lub10"
-        elif self.motor == "Motor 5":
-            condition = "lub2_5"
+        #     if self.motor == "Motor 1":
+        #         condition = "lub100"
+        #     elif self.motor == "Motor 2":
+        #         condition = "lub75"
+        #     elif self.motor == "Motor 3":
+        #         condition = "lub25"
+        #     elif self.motor == "Motor 4":
+        #         condition = "lub10"
+        #     elif self.motor == "Motor 5":
+        #         condition = "lub2_5"
 
         # if condition:
         #     df = DATABASE.get_data(condition)
@@ -183,11 +188,11 @@ class Detail:
 
     def display(self):
 
-        if self.motor:
+        if st.session_state.selected_motor:
 
             self.text_metrics()
-            self.gauge_indicator()
-            self.write_df()
+            # self.gauge_indicator()
+            # self.write_df()
 
         return True
 

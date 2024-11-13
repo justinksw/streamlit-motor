@@ -13,56 +13,58 @@ STATIC = Static()
 class Overview:
     def __init__(self) -> None:
 
-        self.motors = [
-            Motor(
-                motor_name="Motor 1",
-                sensor_id_drive="NA",
-                sensor_id_non_drive="NA",
-                datafolder="NA",
-            ),
-            Motor(
-                motor_name="Motor 2",
-                sensor_id_drive="NA",
-                sensor_id_non_drive="NA",
-                datafolder="NA",
-            ),
-            Motor(
-                motor_name="Motor 3",
-                sensor_id_drive="NA",
-                sensor_id_non_drive="NA",
-                datafolder="NA",
-            ),
-            Motor(
-                motor_name="Motor 4",
-                sensor_id_drive="00:13:a2:00:42:35:db:cb",
-                sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-                datafolder="data/CLP20241024data/Motor 4",
-            ),
-            Motor(
-                motor_name="Motor 5",
-                sensor_id_drive="NA",
-                sensor_id_non_drive="NA",
-                datafolder="NA",
-            ),
-            Motor(
-                motor_name="Motor 6",
-                sensor_id_drive="NA",
-                sensor_id_non_drive="NA",
-                datafolder="NA",
-            ),
-            Motor(
-                motor_name="Motor 7",
-                sensor_id_drive="00:13:a2:00:42:35:db:cb",
-                sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-                datafolder="data/CLP20241024data/Motor 4",
-            ),
-            Motor(
-                motor_name="Motor 8",
-                sensor_id_drive="00:13:a2:00:42:35:db:cb",
-                sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-                datafolder="data/CLP20241024data/Motor 4",
-            ),
-        ]
+        self.motors = st.session_state.motors
+
+        # self.motors = [
+        #     Motor(
+        #         motor_name="Motor 1",
+        #         sensor_id_drive="NA",
+        #         sensor_id_non_drive="NA",
+        #         datafolder="NA",
+        #     ),
+        #     Motor(
+        #         motor_name="Motor 2",
+        #         sensor_id_drive="NA",
+        #         sensor_id_non_drive="NA",
+        #         datafolder="NA",
+        #     ),
+        #     Motor(
+        #         motor_name="Motor 3",
+        #         sensor_id_drive="NA",
+        #         sensor_id_non_drive="NA",
+        #         datafolder="NA",
+        #     ),
+        #     Motor(
+        #         motor_name="Motor 4",
+        #         sensor_id_drive="00:13:a2:00:42:35:db:cb",
+        #         sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
+        #         datafolder="data/CLP20241024data/Motor 4",
+        #     ),
+        #     Motor(
+        #         motor_name="Motor 5",
+        #         sensor_id_drive="NA",
+        #         sensor_id_non_drive="NA",
+        #         datafolder="NA",
+        #     ),
+        #     Motor(
+        #         motor_name="Motor 6",
+        #         sensor_id_drive="NA",
+        #         sensor_id_non_drive="NA",
+        #         datafolder="NA",
+        #     ),
+        #     Motor(
+        #         motor_name="Motor 7",
+        #         sensor_id_drive="00:13:a2:00:42:35:db:cb",
+        #         sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
+        #         datafolder="data/CLP20241024data/Motor 4",
+        #     ),
+        #     Motor(
+        #         motor_name="Motor 8",
+        #         sensor_id_drive="00:13:a2:00:42:35:db:cb",
+        #         sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
+        #         datafolder="data/CLP20241024data/Motor 4",
+        #     ),
+        # ]
 
     def infomation(self, motor):
 
@@ -139,16 +141,16 @@ class Overview:
                 col1, col2 = st.columns(2)
 
                 with col1:
-                    self.infomation(self.motors[0])
-                    self.infomation(self.motors[2])
-                    self.infomation(self.motors[4])
-                    self.infomation(self.motors[6])
+                    self.infomation(self.motors["Motor 1"])
+                    self.infomation(self.motors["Motor 3"])
+                    self.infomation(self.motors["Motor 5"])
+                    self.infomation(self.motors["Motor 7"])
 
                 with col2:
-                    self.infomation(self.motors[1])
-                    self.infomation(self.motors[3])
-                    self.infomation(self.motors[5])
-                    self.infomation(self.motors[7])
+                    self.infomation(self.motors["Motor 2"])
+                    self.infomation(self.motors["Motor 4"])
+                    self.infomation(self.motors["Motor 6"])
+                    self.infomation(self.motors["Motor 8"])
 
         return None
 

@@ -1,7 +1,9 @@
+import numpy as np
 import streamlit as st
 
 from src2.navigation import navigation
 from pages.do_anlysis import Analysis
+from model_motor.motor import MotorJsonFile
 
 
 class OfflineAnalysis:
@@ -25,8 +27,28 @@ class OfflineAnalysis:
         if not self.files:
             return None
 
-        do_analysis = Analysis(self.files, local=False)
-        do_analysis.display()
+        # Local analysis: files: directories
+        # Online analysis: files: streamlit upload file objects
+
+        fs = 1600
+
+        datafiles = [MotorJsonFile(i, local=False) for i in self.files]
+
+        Y = []
+        X = []
+        labels = []
+
+        for m in datafiles:
+
+            _y = m.get_data()
+            _x = np.linspace(0, len(_y), len(_y)) / fs
+
+            Y.append(_y)
+            X.append(_x)
+            labels.append(m.get_file_name())
+
+        do_analysis = Analysis()
+        do_analysis.plot_charts(X, Y, labels)
 
 
 navigation()

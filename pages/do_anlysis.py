@@ -5,13 +5,16 @@ from model_motor.motor import MotorJsonFile
 
 
 class Analysis:
-    def __init__(self, files, local=False):
+    def __init__(self):
+        pass
 
-        # Local analysis: files: directories
-        # Online analysis: files: streamlit upload file objects
+    # def __init__(self, files, local=False):
 
-        self.files = files
-        self.local = local
+    # Local analysis: files: directories
+    # Online analysis: files: streamlit upload file objects
+
+    # self.files = files
+    # self.local = local
 
     # def metrix(self):
 
@@ -29,7 +32,7 @@ class Analysis:
     #         col3.metric(label="Condition", value=value)
     #         col4.metric(label="Since last inspection", value=f"{diff} day(s)")
 
-    def display(self):
+    def plot_charts(self, x, y, labels):
 
         container = st.container(border=True)
         with container:
@@ -59,11 +62,13 @@ class Analysis:
 
         # == Plot Setting == #
 
-        plot = Plots(
-            files=self.files,
-            local=self.local,
-            # selected_time_window=d,
-        )
+        plot = Plots(x, y, labels)
+
+        # plot = Plots(
+        #     files=self.files,
+        #     local=self.local,
+        #     # selected_time_window=d,
+        # )
 
         # == ROW 3 == #
 

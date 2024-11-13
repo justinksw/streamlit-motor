@@ -1,6 +1,7 @@
 import pytz
 from datetime import date, datetime, timedelta
 
+import numpy as np
 import streamlit as st
 import pandas as pd
 
@@ -10,6 +11,7 @@ from model_motor.motor import get_historical_data
 from pages.do_anlysis import Analysis
 
 from kswutils_plotly.plotly_graph import PlotlyGraph
+from model_motor.motor import MotorJsonFile
 
 
 navigation()
@@ -90,7 +92,29 @@ if selection["selection"]["points"]:
 
     files = [path]
 
-    analysis = Analysis(files, local=True)
-    analysis.display()
+    # analysis = Analysis(files, local=True)
+    # analysis.display()
+    fs = 1600
+
+    # Local analysis: files: directories
+    # Online analysis: files: streamlit upload file objects
+
+    datafiles = [MotorJsonFile(i, local=True) for i in files]
+
+    Y = []
+    X = []
+    labels = []
+
+    for m in datafiles:
+
+        _y = m.get_data()
+        _x = np.linspace(0, len(_y), len(_y)) / fs
+
+        Y.append(_y)
+        X.append(_x)
+        labels.append(m.get_file_name())
+
+    do_analysis = Analysis()
+    do_analysis.plot_charts(X, Y, labels)
 
 df2
