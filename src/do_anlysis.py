@@ -1,6 +1,6 @@
 import streamlit as st
 
-from src2.plots import Plots
+from plots import Plots
 from model_motor.motor import MotorJsonFile
 
 from src.components import Static

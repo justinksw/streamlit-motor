@@ -2,7 +2,7 @@ import numpy as np
 import streamlit as st
 
 from src2.navigation import navigation
-from pages.do_anlysis import Analysis
+from pages2.do_anlysis import Analysis
 from model_motor.motor import MotorJsonFile
 
 

@@ -1,7 +1,7 @@
 import streamlit as st
 
-from pages.detail import Detail
-from pages.overview import Overview
+from pages2.detail import Detail
+from pages2.overview import Overview
 
 from src2.navigation import navigation
 from model_motor.motor import Motor

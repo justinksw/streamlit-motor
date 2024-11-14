@@ -8,7 +8,7 @@ import pandas as pd
 from src2.navigation import navigation
 from model_motor.motor import get_historical_data
 
-from pages.do_anlysis import Analysis
+from pages2.do_anlysis import Analysis
 
 from kswutils_plotly.plotly_graph import PlotlyGraph
 from model_motor.motor import MotorJsonFile

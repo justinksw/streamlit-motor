@@ -7,7 +7,7 @@ import streamlit as st
 
 from src.components import Static
 
-from pages.do_anlysis import Analysis
+from pages2.do_anlysis import Analysis
 
 
 STATIC = Static()
