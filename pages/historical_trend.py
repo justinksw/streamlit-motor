@@ -1,17 +1,15 @@
-import pytz
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 
 import numpy as np
-import streamlit as st
 import pandas as pd
+import streamlit as st
 
+from src.anlysis import Analysis
+from src.motor import MotorJsonFile
+from src.motor import get_historical_data
 from src2.navigation import navigation
-from model_motor.motor import get_historical_data
-
-from pages2.do_anlysis import Analysis
 
 from kswutils_plotly.plotly_graph import PlotlyGraph
-from model_motor.motor import MotorJsonFile
 
 
 navigation()

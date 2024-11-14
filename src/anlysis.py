@@ -1,11 +1,7 @@
 import streamlit as st
 
-from plots import Plots
-from model_motor.motor import MotorJsonFile
-
 from src.components import Static
-
-STATIC = Static()
+from src.plots import Plots
 
 
 class Analysis:
@@ -31,10 +27,12 @@ class Analysis:
         with container:
             col1, col2 = st.columns([6, 6], vertical_alignment="top", gap="medium")
 
+            static = Static()
+
             with col1:
-                STATIC.gauge_chart_ai(value=ai_score)
+                static.gauge_chart_ai(value=ai_score)
             with col2:
-                STATIC.gauge_chart_rms(value=rms)
+                static.gauge_chart_rms(value=rms)
 
         return None
 

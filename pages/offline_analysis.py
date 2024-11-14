@@ -4,7 +4,7 @@ import streamlit as st
 from src.anlysis import Analysis
 from src2.navigation import navigation
 
-from model_motor.motor import MotorJsonFile
+from motor import MotorJsonFile
 
 
 class OfflineAnalysis:

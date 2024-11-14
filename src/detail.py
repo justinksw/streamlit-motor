@@ -2,15 +2,9 @@ import datetime
 from random import random
 
 import numpy as np
-
 import streamlit as st
 
-from src.components import Static
-
-from pages2.do_anlysis import Analysis
-
-
-STATIC = Static()
+from src.anlysis import Analysis
 
 
 class Detail:

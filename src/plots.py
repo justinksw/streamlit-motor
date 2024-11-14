@@ -1,4 +1,3 @@
-import os
 import numpy as np
 import pywt
 import scipy.stats as stat
@@ -8,8 +7,6 @@ import plotly.graph_objects as go
 
 from kswutils_plotly.plotly_graph import PlotlyGraph
 from kswutils_signal.frequency_analysis import FrequencyAnalysis as FA
-
-from model_motor.motor import MotorJsonFile
 
 
 def select_fft_range(fft_x, fft_y):

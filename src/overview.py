@@ -1,13 +1,8 @@
-import random
-
 import streamlit as st
 from streamlit_extras.stylable_container import stylable_container
 
 from src.components import Static
-from model_motor.motor import Motor
-
-
-STATIC = Static()
+from src.motor import Motor
 
 
 class Overview:
@@ -15,58 +10,9 @@ class Overview:
 
         self.motors = st.session_state.motors
 
-        # self.motors = [
-        #     Motor(
-        #         motor_name="Motor 1",
-        #         sensor_id_drive="NA",
-        #         sensor_id_non_drive="NA",
-        #         datafolder="NA",
-        #     ),
-        #     Motor(
-        #         motor_name="Motor 2",
-        #         sensor_id_drive="NA",
-        #         sensor_id_non_drive="NA",
-        #         datafolder="NA",
-        #     ),
-        #     Motor(
-        #         motor_name="Motor 3",
-        #         sensor_id_drive="NA",
-        #         sensor_id_non_drive="NA",
-        #         datafolder="NA",
-        #     ),
-        #     Motor(
-        #         motor_name="Motor 4",
-        #         sensor_id_drive="00:13:a2:00:42:35:db:cb",
-        #         sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-        #         datafolder="data/CLP20241024data/Motor 4",
-        #     ),
-        #     Motor(
-        #         motor_name="Motor 5",
-        #         sensor_id_drive="NA",
-        #         sensor_id_non_drive="NA",
-        #         datafolder="NA",
-        #     ),
-        #     Motor(
-        #         motor_name="Motor 6",
-        #         sensor_id_drive="NA",
-        #         sensor_id_non_drive="NA",
-        #         datafolder="NA",
-        #     ),
-        #     Motor(
-        #         motor_name="Motor 7",
-        #         sensor_id_drive="00:13:a2:00:42:35:db:cb",
-        #         sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-        #         datafolder="data/CLP20241024data/Motor 4",
-        #     ),
-        #     Motor(
-        #         motor_name="Motor 8",
-        #         sensor_id_drive="00:13:a2:00:42:35:db:cb",
-        #         sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-        #         datafolder="data/CLP20241024data/Motor 4",
-        #     ),
-        # ]
-
     def infomation(self, motor):
+
+        static = Static()
 
         # Not worked. This will change all components.
         # st.markdown(
@@ -94,7 +40,7 @@ class Overview:
 
             with col1:
 
-                STATIC.infomation_card(
+                static.infomation_card(
                     motor_name=motor.get_motor_name(),
                     motor_condition=motor.get_condition(),
                     battery1=motor.get_battery()[0],

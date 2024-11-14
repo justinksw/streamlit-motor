@@ -3,8 +3,9 @@ import streamlit as st
 from src.detail import Detail
 from src.overview import Overview
 
+from src.motor import Motor
+
 from src2.navigation import navigation
-from model_motor.motor import Motor
 
 
 navigation()
