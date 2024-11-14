@@ -45,8 +45,6 @@ class Detail:
 
             motor_data = self.selected_motor.get_latest_data()
 
-            idx = motor_data["Sensor Loc"].index(sensor_loc)
-
             if not motor_data["Data"]:
                 st.header("No data")
 
@@ -57,7 +55,9 @@ class Detail:
 
                 analysis.gauge_indicator(ai, rms)
 
+                idx = motor_data["Sensor Loc"].index(sensor_loc)
                 y = motor_data["Data"][idx]
+
                 x = np.linspace(0, len(y), len(y)) / 1600
                 label = motor_name
 

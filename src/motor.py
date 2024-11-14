@@ -120,6 +120,7 @@ class Motor:
                     motor_data["Data"].append(datafile.get_data())
                     motor_data["Sensor ID"].append(datafile.get_device_id())
                     motor_data["Sensor Loc"].append("Drive-end")
+                    motor_data["Battery"].append(datafile.get_battery_value())
 
                     flag1 = True
 
@@ -129,6 +130,7 @@ class Motor:
                     motor_data["Data"].append(datafile.get_data())
                     motor_data["Sensor ID"].append(datafile.get_device_id())
                     motor_data["Sensor Loc"].append("Non-drive-end")
+                    motor_data["Battery"].append(datafile.get_battery_value())
 
                     flag2 = True
 
@@ -160,10 +162,18 @@ class Motor:
 
     def get_battery(self):
 
-        if not self.motor_data_latest["Data"]:
-            return (0, 0)
+        battery = [0, 0]
 
-        return ("100", "100")
+        if not self.motor_data_latest["Data"]:
+            return battery
+
+        idx1 = self.motor_data_latest["Sensor Loc"].index("Drive-end")
+        idx2 = self.motor_data_latest["Sensor Loc"].index("Non-drive-end")
+
+        battery[0] = self.motor_data_latest["Battery"][idx1]
+        battery[1] = self.motor_data_latest["Battery"][idx2]
+
+        return battery
 
     def get_last_inspection_date(self):
 
@@ -172,50 +182,51 @@ class Motor:
 
         return "2024/10/24"
 
+    #
 
-def get_historical_data(folder_dir):
+    def get_historical_data(self):
 
-    files = FileIO.get_subdirectories(folder_dir)
-    files.sort()
+        files = FileIO.get_subdirectories(self.datafolder)
+        files.sort()
 
-    historical_data = {
-        "File Name": [],
-        "RMS X": [],
-        "RMS Y": [],
-        "RMS Z": [],
-        "TS HK": [],
-        "Sensor ID": [],
-        # "Sensor Loc": [],
-        "Battery": [],
-    }
+        historical_data = {
+            "File Name": [],
+            "RMS X": [],
+            "RMS Y": [],
+            "RMS Z": [],
+            "TS HK": [],
+            "Sensor ID": [],
+            "Sensor Loc": [],
+            "Battery": [],
+        }
 
-    for f in files:
-        _, file_extension = os.path.splitext(f)
+        for f in files:
+            _, file_extension = os.path.splitext(f)
 
-        if file_extension != ".json":
-            continue
+            if file_extension != ".json":
+                continue
 
-        datafile = MotorJsonFile(f, local=True)
+            datafile = MotorJsonFile(f, local=True)
 
-        data = datafile.get_data_array()
+            data = datafile.get_data_array()
 
-        # dc = np.repeat(np.array([[0, 0, 1]]), repeats=len(data), axis=0)
-        # data_dc = data - dc
-        rms = np.sqrt(np.mean(data**2, axis=0))
+            # dc = np.repeat(np.array([[0, 0, 1]]), repeats=len(data), axis=0)
+            # data_dc = data - dc
+            rms = np.sqrt(np.mean(data**2, axis=0))
 
-        historical_data["File Name"].append(datafile.get_file_name())
-        historical_data["RMS X"].append(rms[0])
-        historical_data["RMS Y"].append(rms[1])
-        historical_data["RMS Z"].append(rms[2])
-        historical_data["TS HK"].append(datafile.get_timestamp_utc_hk())
-        historical_data["Sensor ID"].append(datafile.get_device_id())
+            historical_data["File Name"].append(datafile.get_file_name())
+            historical_data["RMS X"].append(rms[0])
+            historical_data["RMS Y"].append(rms[1])
+            historical_data["RMS Z"].append(rms[2])
+            historical_data["TS HK"].append(datafile.get_timestamp_utc_hk())
+            historical_data["Sensor ID"].append(datafile.get_device_id())
 
-        # if datafile.get_device_id() == self.sensor_id_drive:
-        #     historical_data["Sensor Loc"].append("Drive-end")
+            if datafile.get_device_id() == self.sensor_id_drive:
+                historical_data["Sensor Loc"].append("Drive-end")
 
-        # elif datafile.get_device_id() == self.sensor_id_non_drive:
-        #     historical_data["Sensor Loc"].append("Non-drive-end")
+            elif datafile.get_device_id() == self.sensor_id_non_drive:
+                historical_data["Sensor Loc"].append("Non-drive-end")
 
-        historical_data["Battery"].append(datafile.get_battery_value())
+            historical_data["Battery"].append(datafile.get_battery_value())
 
-    return historical_data
+        return historical_data

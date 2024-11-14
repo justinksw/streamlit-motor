@@ -6,7 +6,6 @@ import streamlit as st
 
 from src.anlysis import Analysis
 from src.motor import MotorJsonFile
-from src.motor import get_historical_data
 from src2.navigation import navigation
 
 from kswutils_plotly.plotly_graph import PlotlyGraph
@@ -15,104 +14,72 @@ from kswutils_plotly.plotly_graph import PlotlyGraph
 navigation()
 
 
-if "date_now" not in st.session_state:
-    st.session_state.date_now = datetime.now()
+class Historical:
+    def __init__(self):
 
-if "selections" not in st.session_state:
-    st.session_state.selections = None
+        motors = st.session_state["motors"]
 
-start_date = datetime(2024, 10, 1)
-# end_date = datetime.now()  # THIS NOT WORK
-end_date = st.session_state["date_now"]
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            motor_selection = st.selectbox("Motor", motors.keys(), index=3)
+        with col2:
+            sensor_loc = st.selectbox("Sensor", ["Drive-end", "Non-drive-end"])
+        with col3:
+            data_type = st.selectbox("Data", ["RMS Z", "Battery"])
+
+        motor = motors[motor_selection]
+
+        df = motor.get_historical_data()
+        df = pd.DataFrame(df)
+
+        df2 = df[df["Sensor Loc"] == sensor_loc]
+
+        X = df2["TS HK"]
+        Y = df2[data_type]
+
+        G = PlotlyGraph()
+        G.add_line(
+            x=X,
+            y=Y,
+            title=f"{motor_selection}: {sensor_loc}",
+            xlabel="Time",
+            ylabel="Value",
+            # xticks_val=_x.tolist(),
+            # xticks_label=dff["time"],
+            mode="lines+markers",
+        )
+
+        selection = st.plotly_chart(G.fig, on_select="rerun")
+
+        if selection["selection"]["points"]:
+            filename = df2[df2["TS HK"] == selection["selection"]["points"][0]["x"]][
+                "File Name"
+            ].iloc[0]
+
+            path = f"{motor.datafolder}/{filename}.json"
+
+            files = [path]
+
+            fs = 1600
+
+            datafiles = [MotorJsonFile(i, local=True) for i in files]
+
+            Y = []
+            X = []
+            labels = []
+
+            for m in datafiles:
+
+                _y = m.get_data()
+                _x = np.linspace(0, len(_y), len(_y)) / fs
+
+                Y.append(_y)
+                X.append(_x)
+                labels.append(m.get_file_name())
+
+            analysis = Analysis()
+            analysis.plot_charts(X, Y, labels)
 
 
-selected_date = st.slider(
-    "Select a date range",
-    min_value=start_date,
-    max_value=end_date,
-    value=(start_date, end_date),
-    step=timedelta(days=1),
-)
-
-st.write(selected_date)
-
-df = get_historical_data("data/CLP20241024data/Motor 4")
-
-df = pd.DataFrame(df)
-
-# df["TS HK"] = pd.to_datetime(df["TS HK"])
-
-# df = df[
-#     (df["TS HK"] > selected_date[0]) & (df["TS HK"] < selected_date[1])
-# ]
-
-# df
-
-opt_sensor_id = df["Sensor ID"].unique().tolist()
-opt_plt = ["RMS X", "RMS Y", "RMS Z", "Battery"]
-
-select_id = st.selectbox("Sensor ID", opt_sensor_id)
-select_plt = st.selectbox("Sensor ID", opt_plt)
-
-df2 = df[df["Sensor ID"] == select_id]
-
-X = df2["TS HK"]
-Y = df2[select_plt]
-
-# st.line_chart(df2, x="TS HK", y=select_plt)
-
-G = PlotlyGraph()
-
-G.add_line(X, Y)
-
-G.add_line(
-    x=X,
-    y=Y,
-    title=f"Sensor ID: {select_id}",
-    xlabel="Time",
-    ylabel="Value",
-    # xticks_val=_x.tolist(),
-    # xticks_label=dff["time"],
-    mode="lines+markers",
-)
-
-selection = st.plotly_chart(G.fig, on_select="rerun")
-
-# st.write(selection)
-
-if selection["selection"]["points"]:
-
-    filename = df2[df2["TS HK"] == selection["selection"]["points"][0]["x"]][
-        "File Name"
-    ].iloc[0]
-
-    path = f"data/CLP20241024data/Motor 4/{filename}.json"
-
-    files = [path]
-
-    # analysis = Analysis(files, local=True)
-    # analysis.display()
-    fs = 1600
-
-    # Local analysis: files: directories
-    # Online analysis: files: streamlit upload file objects
-
-    datafiles = [MotorJsonFile(i, local=True) for i in files]
-
-    Y = []
-    X = []
-    labels = []
-
-    for m in datafiles:
-
-        _y = m.get_data()
-        _x = np.linspace(0, len(_y), len(_y)) / fs
-
-        Y.append(_y)
-        X.append(_x)
-        labels.append(m.get_file_name())
-
-    do_analysis = Analysis()
-    do_analysis.plot_charts(X, Y, labels)
-
-df2
+history = Historical()

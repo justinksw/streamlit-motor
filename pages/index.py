@@ -57,13 +57,13 @@ if "motors" not in st.session_state:
             motor_name="Motor 7",
             sensor_id_drive="00:13:a2:00:42:35:db:cb",
             sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-            datafolder="data/CLP20241024data/Motor 4",
+            datafolder="data/CLP20241024data/Motor 7",
         ),
         "Motor 8": Motor(
             motor_name="Motor 8",
             sensor_id_drive="00:13:a2:00:42:35:db:cb",
             sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-            datafolder="data/CLP20241024data/Motor 4",
+            datafolder="data/CLP20241024data/Motor 8",
         ),
     }
 
