@@ -1,7 +1,7 @@
 import streamlit as st
 
-from src.detail import Detail
-from src.overview import Overview
+from pages2.detail import Detail
+from pages2.overview import Overview
 
 from src.motor import Motor
 

@@ -43,20 +43,23 @@ class Detail:
 
             analysis.write_metrics(motor_name, sensor_id, motor_condition, "N/A")
 
-            ai = random() * (500 - 100) + 100
-            rms = random() * (1.5 - 0.2) + 0.2
-
-            analysis.gauge_indicator(ai, rms)
-
             motor_data = self.selected_motor.get_latest_data()
 
-            # print(motor_data["Data"][0].shape)
+            if not motor_data["Data"]:
+                st.header("No data")
 
-            y = motor_data["Data"][0]
-            x = np.linspace(0, len(y), len(y)) / 1600
-            label = motor_name
+            else:
 
-            analysis.plot_charts([x], [y], [label])
+                ai = random() * (500 - 100) + 100
+                rms = random() * (1.5 - 0.2) + 0.2
+
+                analysis.gauge_indicator(ai, rms)
+
+                y = motor_data["Data"][0]
+                x = np.linspace(0, len(y), len(y)) / 1600
+                label = motor_name
+
+                analysis.plot_charts([x], [y], [label])
 
         return True
 
