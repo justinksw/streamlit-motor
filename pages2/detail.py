@@ -22,12 +22,12 @@ class Detail:
             st.button("Return", on_click=cancel_selection)
 
         with col2:
-            if st.button("Sensor 1"):
-                st.session_state["selected_sensor"] = "Sensor-1"
+            if st.button("Drive end"):
+                st.session_state["selected_sensor"] = "Drive-end"
 
         with col3:
-            if st.button("Sensor 2"):
-                st.session_state["selected_sensor"] = "Sensor-2"
+            if st.button("Non-drive end"):
+                st.session_state["selected_sensor"] = "Non-drive-end"
 
         self.datetime_now = datetime.date.today()
 
@@ -36,26 +36,28 @@ class Detail:
         if st.session_state["selected_motor"]:
 
             motor_name = self.selected_motor.get_motor_name()
-            sensor_id = st.session_state["selected_sensor"]
+            sensor_loc = st.session_state["selected_sensor"]
             motor_condition = self.selected_motor.get_condition()
 
             analysis = Analysis()
 
-            analysis.write_metrics(motor_name, sensor_id, motor_condition, "N/A")
+            analysis.write_metrics(motor_name, sensor_loc, motor_condition, "N/A")
 
             motor_data = self.selected_motor.get_latest_data()
+
+            idx = motor_data["Sensor Loc"].index(sensor_loc)
 
             if not motor_data["Data"]:
                 st.header("No data")
 
             else:
 
-                ai = random() * (500 - 100) + 100
+                ai = random() * (300 - 200) + 200
                 rms = random() * (1.5 - 0.2) + 0.2
 
                 analysis.gauge_indicator(ai, rms)
 
-                y = motor_data["Data"][0]
+                y = motor_data["Data"][idx]
                 x = np.linspace(0, len(y), len(y)) / 1600
                 label = motor_name
 

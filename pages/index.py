@@ -74,7 +74,7 @@ if "selected_motor" not in st.session_state:
     st.session_state["selected_motor"] = None
 
 if "selected_sensor" not in st.session_state:
-    st.session_state["selected_sensor"] = "Sensor-1"
+    st.session_state["selected_sensor"] = "Drive-end"
 
 
 # == Main == #
