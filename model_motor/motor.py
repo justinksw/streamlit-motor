@@ -117,7 +117,7 @@ class Motor:
                 if not flag1 and datafile.get_device_id() == self.sensor_id_drive:
 
                     motor_data["Motor Name"].append(self.motor_name)
-                    motor_data["Data"].append(datafile.get_data_array())
+                    motor_data["Data"].append(datafile.get_data())
                     motor_data["Sensor ID"].append(datafile.get_device_id())
                     motor_data["Sensor Loc"].append("Drive-end")
 
@@ -126,7 +126,7 @@ class Motor:
                 if not flag2 and datafile.get_device_id() == self.sensor_id_non_drive:
 
                     motor_data["Motor Name"].append(self.motor_name)
-                    motor_data["Data"].append(datafile.get_data_array())
+                    motor_data["Data"].append(datafile.get_data())
                     motor_data["Sensor ID"].append(datafile.get_device_id())
                     motor_data["Sensor Loc"].append("Non-drive-end")
 

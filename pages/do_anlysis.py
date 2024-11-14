@@ -23,8 +23,10 @@ class Analysis:
             col3.metric(label="Condition", value=motor_condition)
             col4.metric(label="Since last inspection", value=f"{day_diff} day(s)")
 
+        return None
+
     @staticmethod
-    def gauge_indicator(rms, ai_score):
+    def gauge_indicator(ai_score, rms):
         container = st.container(height=None, border=True)
         with container:
             col1, col2 = st.columns([6, 6], vertical_alignment="top", gap="medium")
@@ -33,6 +35,8 @@ class Analysis:
                 STATIC.gauge_chart_ai(value=ai_score)
             with col2:
                 STATIC.gauge_chart_rms(value=rms)
+
+        return None
 
     @staticmethod
     def plot_charts(x, y, labels):
@@ -160,3 +164,5 @@ class Analysis:
                     st.write("")
                     # st.plotly_chart(plot.plot_envelope_fft_with_filter(ref))
                     # st.plotly_chart(plot.plot_envelope_fft_with_denoising_filter(ref))
+
+        return None

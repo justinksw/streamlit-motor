@@ -1,16 +1,13 @@
 import datetime
+from random import random
 
-import pandas as pd
+import numpy as np
+
 import streamlit as st
 
 from src.components import Static
 
-from src2.ai_model import AI_Model
-
 from pages.do_anlysis import Analysis
-
-from kswutils.calculator import calc_fft
-from kswutils.signalprocessing import Sliding1d
 
 
 STATIC = Static()
@@ -19,10 +16,9 @@ STATIC = Static()
 class Detail:
     def __init__(self) -> None:
 
-        self.selected_motor_name = st.session_state.selected_motor
-        self.motors = st.session_state.motors
+        motor_name = st.session_state["selected_motor"]
 
-        self.selected_motor = self.motors[self.selected_motor_name]
+        self.selected_motor = st.session_state["motors"][motor_name]
 
         st.write(datetime.date.today())
 
@@ -33,35 +29,44 @@ class Detail:
 
         with col2:
             if st.button("Sensor 1"):
-                st.session_state.selected_sensor = "Sensor-1"
+                st.session_state["selected_sensor"] = "Sensor-1"
 
         with col3:
             if st.button("Sensor 2"):
-                st.session_state.selected_sensor = "Sensor-2"
+                st.session_state["selected_sensor"] = "Sensor-2"
 
         self.datetime_now = datetime.date.today()
 
     def display(self):
 
-        if st.session_state.selected_motor:
+        if st.session_state["selected_motor"]:
+
+            motor_name = self.selected_motor.get_motor_name()
+            sensor_id = st.session_state["selected_sensor"]
+            motor_condition = self.selected_motor.get_condition()
 
             analysis = Analysis()
+
+            analysis.write_metrics(motor_name, sensor_id, motor_condition, "N/A")
+
+            ai = random() * (500 - 100) + 100
+            rms = random() * (1.5 - 0.2) + 0.2
+
+            analysis.gauge_indicator(ai, rms)
+
+            motor_data = self.selected_motor.get_latest_data()
+
+            # print(motor_data["Data"][0].shape)
+
+            y = motor_data["Data"][0]
+            x = np.linspace(0, len(y), len(y)) / 1600
+            label = motor_name
+
+            analysis.plot_charts([x], [y], [label])
 
         return True
 
 
 def cancel_selection():
     st.session_state.selected_motor = None
-    return None
-
-
-def show_more_calculation():
-    if st.session_state.more_calculation == False:
-        st.session_state.more_calculation = True
-    return None
-
-
-def hide_more_calculation():
-    if st.session_state.more_calculation == True:
-        st.session_state.more_calculation = False
     return None

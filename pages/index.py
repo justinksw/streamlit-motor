@@ -15,7 +15,7 @@ navigation()
 
 if "motors" not in st.session_state:
 
-    st.session_state.motors = {
+    st.session_state["motors"] = {
         "Motor 1": Motor(
             motor_name="Motor 1",
             sensor_id_drive="NA",
@@ -66,26 +66,24 @@ if "motors" not in st.session_state:
         ),
     }
 
+
 # == Other global session state variables == #
 
 if "selected_motor" not in st.session_state:
-    st.session_state.selected_motor = None
+    st.session_state["selected_motor"] = None
 
 if "selected_sensor" not in st.session_state:
-    st.session_state.selected_sensor = "Sensor-1"
-
-if "more_calculation" not in st.session_state:
-    st.session_state.more_calculation = False
+    st.session_state["selected_sensor"] = "Sensor-1"
 
 
 # == Main == #
 
-if not st.session_state.selected_motor:
+if not st.session_state["selected_motor"]:
 
     overview = Overview()
     overview.display()
 
-if st.session_state.selected_motor:
+if st.session_state["selected_motor"]:
 
     detail = Detail()
     detail.display()
