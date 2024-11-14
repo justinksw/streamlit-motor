@@ -2,9 +2,9 @@ import numpy as np
 import streamlit as st
 
 from src.anlysis import Analysis
-from src2.navigation import navigation
+from src.motor import MotorJsonFile
 
-from motor import MotorJsonFile
+from src2.navigation import navigation
 
 
 class OfflineAnalysis:
