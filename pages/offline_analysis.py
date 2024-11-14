@@ -1,8 +1,9 @@
 import numpy as np
 import streamlit as st
 
+from src.anlysis import Analysis
 from src2.navigation import navigation
-from pages2.do_anlysis import Analysis
+
 from model_motor.motor import MotorJsonFile
 
 
@@ -47,11 +48,11 @@ class OfflineAnalysis:
             X.append(_x)
             labels.append(m.get_file_name())
 
-        do_analysis = Analysis()
-        do_analysis.plot_charts(X, Y, labels)
+        analysis = Analysis()
+        analysis.plot_charts(X, Y, labels)
 
 
 navigation()
 
-analysis = OfflineAnalysis()
-analysis.display()
+offline_analysis = OfflineAnalysis()
+offline_analysis.display()
