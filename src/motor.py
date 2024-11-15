@@ -137,7 +137,7 @@ class Motor:
                 if flag1 and flag2:
                     break
 
-        if not flag1 or not flag2:
+        if not flag1 and not flag2:
             return {
                 "Motor Name": [self.motor_name],
                 "Data": [],
@@ -167,11 +167,17 @@ class Motor:
         if not self.motor_data_latest["Data"]:
             return battery
 
-        idx1 = self.motor_data_latest["Sensor Loc"].index("Drive-end")
-        idx2 = self.motor_data_latest["Sensor Loc"].index("Non-drive-end")
+        try:
+            idx1 = self.motor_data_latest["Sensor Loc"].index("Drive-end")
+            battery[0] = self.motor_data_latest["Battery"][idx1]
+        except:
+            pass
 
-        battery[0] = self.motor_data_latest["Battery"][idx1]
-        battery[1] = self.motor_data_latest["Battery"][idx2]
+        try:
+            idx2 = self.motor_data_latest["Sensor Loc"].index("Non-drive-end")
+            battery[1] = self.motor_data_latest["Battery"][idx2]
+        except:
+            pass
 
         return battery
 

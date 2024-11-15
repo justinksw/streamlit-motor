@@ -10,6 +10,8 @@ from src2.navigation import navigation
 class OfflineAnalysis:
     def __init__(self) -> None:
 
+        self.fs = st.text_input("FS", "1600")
+
         self.files = self.upload_file()
 
     def upload_file(self):
@@ -31,7 +33,7 @@ class OfflineAnalysis:
         # Local analysis: files: directories
         # Online analysis: files: streamlit upload file objects
 
-        fs = 1600
+        fs = int(self.fs)
 
         datafiles = [MotorJsonFile(i, local=False) for i in self.files]
 
@@ -49,7 +51,7 @@ class OfflineAnalysis:
             labels.append(m.get_file_name())
 
         analysis = Analysis()
-        analysis.plot_charts(X, Y, labels)
+        analysis.plot_charts(X, Y, labels, fs)
 
 
 navigation()

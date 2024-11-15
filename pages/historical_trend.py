@@ -1,5 +1,3 @@
-from datetime import datetime, timedelta
-
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -62,6 +60,8 @@ class Historical:
             files = [path]
 
             fs = 1600
+            if motor_selection not in ["Motor 4", "Motor 7", "Motor 8"]:
+                fs = 50000
 
             datafiles = [MotorJsonFile(i, local=True) for i in files]
 
@@ -79,7 +79,7 @@ class Historical:
                 labels.append(m.get_file_name())
 
             analysis = Analysis()
-            analysis.plot_charts(X, Y, labels)
+            analysis.plot_charts(X, Y, labels, fs)
 
 
 history = Historical()

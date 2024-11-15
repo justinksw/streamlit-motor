@@ -37,7 +37,7 @@ class Analysis:
         return None
 
     @staticmethod
-    def plot_charts(x, y, labels):
+    def plot_charts(x, y, labels, fs=1600):
         container = st.container(border=True)
         with container:
             col1, col2, col3 = st.columns(3)
@@ -66,7 +66,7 @@ class Analysis:
 
         # == Plot Setting == #
 
-        plot = Plots(x, y, labels)
+        plot = Plots(x, y, labels, fs)
 
         # plot = Plots(
         #     files=self.files,

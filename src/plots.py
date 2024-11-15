@@ -122,7 +122,7 @@ def add_box(fig, ref, y_max, y_min=0):
 
 
 class Plots:
-    def __init__(self, x, y, labels):
+    def __init__(self, x, y, labels, fs):
 
         self.X = x
         self.Y = y
@@ -133,7 +133,7 @@ class Plots:
 
         # datafiles = [MotorJsonFile(i, local) for i in files]
 
-        self.fs = 1600  # in Hz
+        self.fs = fs  # in Hz
 
         # self.X = []
         # self.Y = []

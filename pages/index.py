@@ -19,21 +19,21 @@ if "motors" not in st.session_state:
     st.session_state["motors"] = {
         "Motor 1": Motor(
             motor_name="Motor 1",
-            sensor_id_drive="NA",
-            sensor_id_non_drive="NA",
-            datafolder="NA",
+            sensor_id_drive="drive",
+            sensor_id_non_drive="non-drive",
+            datafolder="data/CLP20241024data/Motor 1 (dummy)",
         ),
         "Motor 2": Motor(
             motor_name="Motor 2",
-            sensor_id_drive="NA",
-            sensor_id_non_drive="NA",
-            datafolder="NA",
+            sensor_id_drive="drive",
+            sensor_id_non_drive="non-drive",
+            datafolder="data/CLP20241024data/Motor 2 (dummy)",
         ),
         "Motor 3": Motor(
             motor_name="Motor 3",
-            sensor_id_drive="NA",
-            sensor_id_non_drive="NA",
-            datafolder="NA",
+            sensor_id_drive="drive",
+            sensor_id_non_drive="non-drive",
+            datafolder="data/CLP20241024data/Motor 3 (dummy)",
         ),
         "Motor 4": Motor(
             motor_name="Motor 4",
@@ -43,15 +43,15 @@ if "motors" not in st.session_state:
         ),
         "Motor 5": Motor(
             motor_name="Motor 5",
-            sensor_id_drive="NA",
-            sensor_id_non_drive="NA",
-            datafolder="NA",
+            sensor_id_drive="drive",
+            sensor_id_non_drive="non-drive",
+            datafolder="data/CLP20241024data/Motor 5 (dummy)",
         ),
         "Motor 6": Motor(
             motor_name="Motor 6",
-            sensor_id_drive="NA",
-            sensor_id_non_drive="NA",
-            datafolder="NA",
+            sensor_id_drive="drive",
+            sensor_id_non_drive="non-drive",
+            datafolder="data/CLP20241024data/Motor 6 (dummy)",
         ),
         "Motor 7": Motor(
             motor_name="Motor 7",

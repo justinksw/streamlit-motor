@@ -50,6 +50,10 @@ class Detail:
 
             else:
 
+                fs = 1600
+                if motor_name not in ["Motor 4", "Motor 7", "Motor 8"]:
+                    fs = 50000
+
                 ai = random() * (300 - 200) + 200
                 rms = random() * (1.5 - 0.2) + 0.2
 
@@ -58,10 +62,10 @@ class Detail:
                 idx = motor_data["Sensor Loc"].index(sensor_loc)
                 y = motor_data["Data"][idx]
 
-                x = np.linspace(0, len(y), len(y)) / 1600
+                x = np.linspace(0, len(y), len(y)) / fs
                 label = motor_name
 
-                analysis.plot_charts([x], [y], [label])
+                analysis.plot_charts([x], [y], [label], fs)
 
         return True
 
