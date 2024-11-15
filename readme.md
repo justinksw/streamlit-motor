@@ -50,15 +50,21 @@ To install required packages:
     |--- secrets.toml
 |--- {data} 
 |--- {materials}
+    |--- {vae}
     |--- logo.png
 |--- {pages}
-    |--- analysis.py
-    |--- dashboard.py
-    |--- developing.py
+    |--- about.py
+    |--- historical_trend.py
+    |--- index.py
+    |--- offline_analysis.py
+|--- {pages2}
+    |--- detail.py
+    |--- overview.py
 |--- {src}
     |--- components.py
+|--- {src2}
+    |--- navigation.py
 |--- readme.md
-|--- navigation.py
 |--- streamlit_app.py
 |--- requirements.txt
 ```
