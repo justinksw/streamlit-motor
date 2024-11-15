@@ -76,6 +76,11 @@ if "selected_motor" not in st.session_state:
 if "selected_sensor" not in st.session_state:
     st.session_state["selected_sensor"] = "Drive-end"
 
+if "motor_rpm" not in st.session_state:
+    st.session_state["motor_rpm"] = 1488
+
+if "sensor_fs" not in st.session_state:
+    st.session_state["sensor_fs"] = 1600
 
 # == Main == #
 

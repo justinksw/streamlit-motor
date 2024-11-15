@@ -41,7 +41,7 @@ class Detail:
 
             analysis = Analysis()
 
-            analysis.write_metrics(motor_name, sensor_loc, motor_condition, "N/A")
+            analysis.write_metrics(motor_name, sensor_loc, motor_condition, "23")
 
             motor_data = self.selected_motor.get_latest_data()
 
@@ -54,8 +54,8 @@ class Detail:
                 if motor_name not in ["Motor 4", "Motor 7", "Motor 8"]:
                     fs = 50000
 
-                ai = random() * (300 - 200) + 200
-                rms = random() * (1.5 - 0.2) + 0.2
+                ai = random() * (400 - 300) + 300
+                rms = random() * (1.2 - 0.5) + 0.5
 
                 analysis.gauge_indicator(ai, rms)
 

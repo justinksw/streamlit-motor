@@ -10,9 +10,13 @@ from src2.navigation import navigation
 class OfflineAnalysis:
     def __init__(self) -> None:
 
-        self.fs = st.text_input("FS", "1600")
-
         self.files = self.upload_file()
+
+        col1, col2 = st.columns(2, vertical_alignment="center")
+        with col1:
+            self.fs = st.text_input("Sensor Sampling Rate (Hz)", "1600")
+        with col2:
+            st.text_input("Motor Rotation Speed (RPM)", "1488")
 
     def upload_file(self):
         container = st.container(height=None, border=True)
