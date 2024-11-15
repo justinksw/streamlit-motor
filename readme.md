@@ -10,11 +10,9 @@ Functionality:
 
 This project is for demo purpose.
 
-![image1](./demo/1.png)
+![image1](https://github.com/justinksw/streamlit-motor/blob/main/demo%20/1.png)
 
-![image1](./demo/2.png)
-
-![image1](./demo/3.png)
+![image1](https://github.com/justinksw/streamlit-motor/blob/main/demo%20/2.png)
 
 
 # Local start
