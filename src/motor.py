@@ -90,6 +90,10 @@ class Motor:
 
         self.motor_data_latest = self.get_latest_data()
 
+    def get_data(self):
+        # initialized at the beginning.
+        return self.motor_data_latest
+
     def get_latest_data(self):
 
         motor_data = {
@@ -98,6 +102,8 @@ class Motor:
             "Sensor ID": [],
             "Sensor Loc": [],
             "Battery": [],
+            "File Name": [],
+            "Inspection Date": [],
         }
 
         flag1 = False
@@ -121,6 +127,8 @@ class Motor:
                     motor_data["Sensor ID"].append(datafile.get_device_id())
                     motor_data["Sensor Loc"].append("Drive-end")
                     motor_data["Battery"].append(datafile.get_battery_value())
+                    motor_data["File Name"].append(datafile.get_file_name())
+                    motor_data["Inspection Date"].append(datafile.get_timestamp_unix())
 
                     flag1 = True
 
@@ -131,6 +139,8 @@ class Motor:
                     motor_data["Sensor ID"].append(datafile.get_device_id())
                     motor_data["Sensor Loc"].append("Non-drive-end")
                     motor_data["Battery"].append(datafile.get_battery_value())
+                    motor_data["File Name"].append(datafile.get_file_name())
+                    motor_data["Inspection Date"].append(datafile.get_timestamp_unix())
 
                     flag2 = True
 
@@ -157,7 +167,6 @@ class Motor:
             return "N/A"
 
         # calculate the rms, compare to standard
-
         return "Health"
 
     def get_battery(self):

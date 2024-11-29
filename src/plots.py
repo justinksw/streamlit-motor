@@ -5,9 +5,10 @@ from scipy.signal import hilbert, welch
 
 import plotly.graph_objects as go
 
+from src.calculation import remove_dc
+
 from kswutils_plotly.plotly_graph import PlotlyGraph
 from kswutils_signal.frequency_analysis import FrequencyAnalysis as FA
-
 
 def select_fft_range(fft_x, fft_y):
     fft_range = (5, 550)
@@ -227,6 +228,32 @@ class Plots:
             title="Spectrum (Raw Data)",
             xlabel="Frequency [Hz]",
             ylabel="FFT Amplitude [g]",
+        )
+
+        G.fig.update_layout(
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        )
+
+        return G.fig
+
+    def plot_fft_iftt(self):
+
+        y = []
+
+        for data in self.Y:
+            _data = remove_dc(data)
+
+            y.append(_data)
+
+        G = PlotlyGraph()
+
+        G.add_line(
+            self.X,
+            y,
+            label=self.labels,
+            title="Raw Data (Remove DC Component)",
+            xlabel="Time [Second]",
+            ylabel="Acceleration Amplitude [g]",
         )
 
         G.fig.update_layout(
@@ -513,6 +540,7 @@ class Plots:
                 tickfont=dict(
                     size=16,
                 ),
+                type="category",  # Prevent the auto-casting
             ),
             barmode="group",
         )

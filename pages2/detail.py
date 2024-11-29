@@ -5,6 +5,7 @@ import numpy as np
 import streamlit as st
 
 from src.anlysis import Analysis
+from kswutils_signal.frequency_analysis import FrequencyAnalysis as FA
 
 
 class Detail:
@@ -12,6 +13,7 @@ class Detail:
 
         motor_name = st.session_state["selected_motor"]
 
+        # class Motor
         self.selected_motor = st.session_state["motors"][motor_name]
 
         st.write(datetime.date.today())
@@ -41,29 +43,33 @@ class Detail:
 
             analysis = Analysis()
 
-            analysis.write_metrics(motor_name, sensor_loc, motor_condition, "23")
-
-            motor_data = self.selected_motor.get_latest_data()
+            motor_data = self.selected_motor.get_data()
 
             if not motor_data["Data"]:
                 st.header("No data")
 
             else:
+                idx = motor_data["Sensor Loc"].index(sensor_loc)
+                y = motor_data["Data"][idx]
 
                 fs = 1600
                 if motor_name not in ["Motor 4", "Motor 7", "Motor 8"]:
                     fs = 50000
 
-                ai = random() * (400 - 300) + 300
-                rms = random() * (1.2 - 0.5) + 0.5
-
-                analysis.gauge_indicator(ai, rms)
-
-                idx = motor_data["Sensor Loc"].index(sensor_loc)
-                y = motor_data["Data"][idx]
-
                 x = np.linspace(0, len(y), len(y)) / fs
                 label = motor_name
+
+                ai = random() * (400 - 300) + 300
+                rms = round(random() * (1 - 0.2) + 0.2, 2)
+
+                day = motor_data["Inspection Date"][idx]
+                daydiff = datetime.datetime.today() - day
+
+                analysis.write_metrics(
+                    motor_name, sensor_loc, motor_condition, daydiff.days, rms
+                )
+
+                analysis.gauge_indicator(ai, rms)
 
                 analysis.plot_charts([x], [y], [label], fs)
 
@@ -73,3 +79,17 @@ class Detail:
 def cancel_selection():
     st.session_state.selected_motor = None
     return None
+
+
+# freq_signal = np.fft.fft(y)
+# freq_signal[0] = 0  # remove dc component
+# removed_dc = np.fft.ifft(freq_signal)
+# modified_signal = np.real(removed_dc)
+# modified_signal_ = FA.lowpass_filter(modified_signal, 1000, fs, order=3)
+# rms = (
+#     np.sqrt(np.mean(np.power(modified_signal, 2)))
+#     * 9.81
+#     / (2 * np.pi * fs)
+# )
+# rms = round(rms, 3)
+# print(rms)
