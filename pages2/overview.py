@@ -53,7 +53,7 @@ class Overview:
                 with stylable_container(
                     key="select_motor",
                     css_styles="""
-                        button {
+                        button[kind="secondary"] {
                             color: black;
                             background-color: #F0F2F6;
                             border: none;
@@ -61,7 +61,7 @@ class Overview:
                             font-family: sans-serif;
                         }
 
-                        button:hover{
+                        button[kind="secondary"]:hover{
                             transform: scale(1.25);
                         }
                         """,
