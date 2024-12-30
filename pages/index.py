@@ -4,7 +4,6 @@ from pages2.detail import Detail
 from pages2.overview import Overview
 
 from src.motor import Motor
-
 from src2.navigation import navigation
 
 
@@ -69,6 +68,9 @@ if "motors" not in st.session_state:
 
 
 # == Other global session state variables == #
+
+if "data_type" not in st.session_state:
+    st.session_state["data_type"] = "Acceleration"
 
 if "selected_motor" not in st.session_state:
     st.session_state["selected_motor"] = None

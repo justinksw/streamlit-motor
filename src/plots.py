@@ -5,10 +5,11 @@ from scipy.signal import hilbert, welch
 
 import plotly.graph_objects as go
 
-from src.calculation import remove_dc
+from src.calculation import fft_ifft, integrate_to_velocity
 
 from kswutils_plotly.plotly_graph import PlotlyGraph
 from kswutils_signal.frequency_analysis import FrequencyAnalysis as FA
+
 
 def select_fft_range(fft_x, fft_y):
     fft_range = (5, 550)
@@ -169,6 +170,31 @@ class Plots:
 
         return G.fig
 
+    def plot_velocity(self):
+
+        y = []
+
+        for data in self.Y:
+            vel = integrate_to_velocity(data, self.fs)
+            y.append(vel)
+
+        G = PlotlyGraph()
+
+        G.add_line(
+            self.X,
+            y,
+            label=self.labels,
+            title="Velocity",
+            xlabel="Time [Second]",
+            ylabel="Velocity Amplitude [mm/s]",
+        )
+
+        G.fig.update_layout(
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        )
+
+        return G.fig
+
     def plot_envelope(self):
 
         y = []
@@ -206,7 +232,9 @@ class Plots:
 
         for data in self.Y:
 
-            fft_x, fft_y = FA.calc_fft(data, self.fs)
+            vel = integrate_to_velocity(data, self.fs)
+
+            fft_x, fft_y = FA.calc_fft(vel, self.fs)
 
             y.append(fft_y)
             x.append(fft_x)
@@ -217,7 +245,8 @@ class Plots:
 
         G = PlotlyGraph()
 
-        add_box(G.fig, ref, max_v)
+        if ref:
+            add_box(G.fig, ref, max_v)
 
         G.add_line(
             x,
@@ -241,7 +270,8 @@ class Plots:
         y = []
 
         for data in self.Y:
-            _data = remove_dc(data)
+
+            _data = fft_ifft(data)
 
             y.append(_data)
 
@@ -251,7 +281,7 @@ class Plots:
             self.X,
             y,
             label=self.labels,
-            title="Raw Data (Remove DC Component)",
+            title="Acceleration",
             xlabel="Time [Second]",
             ylabel="Acceleration Amplitude [g]",
         )
@@ -271,7 +301,9 @@ class Plots:
 
         for data in self.Y:
 
-            analytic_signal = hilbert(data)
+            vel = integrate_to_velocity(data, self.fs)
+
+            analytic_signal = hilbert(vel)
             amplitude_envelope = np.abs(analytic_signal)
 
             fft_x, fft_y = FA.calc_fft(amplitude_envelope, self.fs)

@@ -51,8 +51,11 @@ class Analysis:
             col1, col2 = st.columns(2, gap="medium")
 
             with col1:
-                # st.plotly_chart(plot.plot_raw_data())
-                st.plotly_chart(plot.plot_fft_iftt())  # remove DC compoenent
+                if st.session_state["data_type"] == "Acceleration":
+                    st.plotly_chart(plot.plot_fft_iftt())
+
+                elif st.session_state["data_type"] == "Velocity":
+                    st.plotly_chart(plot.plot_velocity())
 
             with col2:
                 st.plotly_chart(plot.plot_statistic())
