@@ -58,7 +58,11 @@ class Analysis:
                     st.plotly_chart(plot.plot_velocity())
 
             with col2:
-                st.plotly_chart(plot.plot_statistic())
+                if st.session_state["data_type"] == "Acceleration":
+                    st.plotly_chart(plot.plot_statistic())
+
+                elif st.session_state["data_type"] == "Velocity":
+                    st.plotly_chart(plot.plot_statistic_velocity())
 
         # == ROW == #
 

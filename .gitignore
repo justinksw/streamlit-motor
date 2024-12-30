@@ -242,3 +242,6 @@ data_test/*
 
 model_ai
 model_ai/*
+
+.VSCodeCounter
+.VSCodeCounter/*

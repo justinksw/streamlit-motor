@@ -5,6 +5,7 @@ import numpy as np
 import streamlit as st
 
 from src.anlysis import Analysis
+from src.calculation import integrate_to_velocity
 from kswutils_signal.frequency_analysis import FrequencyAnalysis as FA
 
 
@@ -60,6 +61,14 @@ class Detail:
                 label = motor_name
 
                 ai = random() * (400 - 300) + 300
+
+                if st.session_state["data_type"] == "Acceleration":
+                    rms = np.sqrt(np.mean(np.power(y, 2)))
+
+                elif st.session_state["data_type"] == "Velocity":
+                    vel = integrate_to_velocity(y, fs)
+                    rms = np.sqrt(np.mean(np.power(vel, 2)))
+
                 rms = round(random() * (1 - 0.2) + 0.2, 2)
 
                 day = motor_data["Inspection Date"][idx]

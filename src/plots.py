@@ -578,3 +578,47 @@ class Plots:
         )
 
         return fig
+
+    def plot_statistic_velocity(self):
+
+        Y_rms = []
+        Y_kurtosis = []
+
+        for data in self.Y:
+
+            vel = integrate_to_velocity(data, self.fs)
+
+            rms = np.sqrt(np.mean(np.power(vel, 2)))
+            kur = stat.kurtosis(vel)
+
+            Y_rms.append(rms)
+            Y_kurtosis.append(kur)
+
+        fig = go.Figure(
+            data=[
+                go.Bar(name="RMS", x=self.labels, y=Y_rms),
+                go.Bar(name="Kurtosis", x=self.labels, y=Y_kurtosis),
+            ]
+        )
+        # Change the bar mode
+        fig.update_layout(
+            title=dict(
+                text="Statistic",
+                font=dict(size=18),
+            ),
+            yaxis_title=dict(
+                text="Amplitude",
+                font=dict(
+                    size=16,
+                ),
+            ),
+            xaxis=dict(
+                tickfont=dict(
+                    size=16,
+                ),
+                type="category",  # Prevent the auto-casting
+            ),
+            barmode="group",
+        )
+
+        return fig
