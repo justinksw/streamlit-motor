@@ -14,7 +14,7 @@ class Detail:
 
         motor_name = st.session_state["selected_motor"]
 
-        # class Motor
+        # class Motor --> index.py
         self.selected_motor = st.session_state["motors"][motor_name]
 
         st.write(datetime.date.today())
@@ -62,14 +62,8 @@ class Detail:
 
                 ai = random() * (400 - 300) + 300
 
-                if st.session_state["data_type"] == "Acceleration":
-                    rms = np.sqrt(np.mean(np.power(y, 2)))
-
-                elif st.session_state["data_type"] == "Velocity":
-                    vel = integrate_to_velocity(y, fs)
-                    rms = np.sqrt(np.mean(np.power(vel, 2)))
-
-                rms = round(random() * (1 - 0.2) + 0.2, 2)
+                vel = integrate_to_velocity(y, fs)
+                rms = round(np.sqrt(np.mean(np.power(vel, 2))), 2)
 
                 day = motor_data["Inspection Date"][idx]
                 daydiff = datetime.datetime.today() - day
@@ -88,17 +82,3 @@ class Detail:
 def cancel_selection():
     st.session_state.selected_motor = None
     return None
-
-
-# freq_signal = np.fft.fft(y)
-# freq_signal[0] = 0  # remove dc component
-# removed_dc = np.fft.ifft(freq_signal)
-# modified_signal = np.real(removed_dc)
-# modified_signal_ = FA.lowpass_filter(modified_signal, 1000, fs, order=3)
-# rms = (
-#     np.sqrt(np.mean(np.power(modified_signal, 2)))
-#     * 9.81
-#     / (2 * np.pi * fs)
-# )
-# rms = round(rms, 3)
-# print(rms)

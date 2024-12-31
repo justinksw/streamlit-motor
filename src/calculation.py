@@ -8,7 +8,11 @@ from scipy.integrate import cumtrapz
 from kswutils_signal.frequency_analysis import FrequencyAnalysis as FA
 
 
-def fft_ifft(data):
+def removedc_minus_mean(data):
+    return data - np.mean(data)
+
+
+def removedc_fft_ifft(data):
 
     freq_signal = np.fft.fft(data)
 
@@ -21,7 +25,7 @@ def fft_ifft(data):
     return modified_signal
 
 
-def denoise_signal(signal):
+def denoise_signal_wavelet_transform(signal):
     # Perform wavelet transform
     coeffs = pywt.wavedec(signal, "db1", level=4)
 
@@ -39,21 +43,13 @@ def denoise_signal(signal):
     return denoised_signal
 
 
-def hilbert_transform(signal):
-    
-    analytic_signal = hilbert(signal)
-    amplitude_envelope = np.abs(analytic_signal)
-
-    return amplitude_envelope
-
-
 def integrate_to_velocity(acceleration, sampling_rate):
 
     data = deepcopy(acceleration)
 
     # == De-noising == #
 
-    data_denoised = denoise_signal(data)
+    data_denoised = denoise_signal_wavelet_transform(data)
 
     # == Filtering == #
 
@@ -78,3 +74,11 @@ def integrate_to_velocity(acceleration, sampling_rate):
 
     # velocity0 = fft_ifft(velocity)
     # return velocity0
+
+
+def calculate_envelope_hilbert_transform(signal):
+
+    analytic_signal = hilbert(signal)
+    amplitude_envelope = np.abs(analytic_signal)
+
+    return amplitude_envelope

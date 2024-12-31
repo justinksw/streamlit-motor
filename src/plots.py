@@ -1,11 +1,13 @@
 import numpy as np
-import pywt
 import scipy.stats as stat
-from scipy.signal import hilbert, welch
 
 import plotly.graph_objects as go
 
-from src.calculation import fft_ifft, integrate_to_velocity
+from src.calculation import (
+    removedc_minus_mean,
+    integrate_to_velocity,
+    calculate_envelope_hilbert_transform,
+)
 
 from kswutils_plotly.plotly_graph import PlotlyGraph
 from kswutils_signal.frequency_analysis import FrequencyAnalysis as FA
@@ -130,36 +132,25 @@ class Plots:
         self.Y = y
         self.labels = labels
 
-        # Local analysis: files: directories
-        # Online analysis: files: streamlit upload file objects
-
-        # datafiles = [MotorJsonFile(i, local) for i in files]
-
         self.fs = fs  # in Hz
 
-        # self.X = []
-        # self.Y = []
-        # self.label = []
+    def plot_timeseries_acceleration_remove_dc(self):
 
-        # for m in datafiles:
+        y = []
 
-        #     data = m.get_data()
-        #     self.Y.append(data)
+        for data in self.Y:
 
-        #     _t = np.linspace(0, len(data), len(data)) / self.fs
-        #     self.X.append(_t)
+            _data = removedc_minus_mean(data)
 
-        #     self.label.append(m.get_file_name())
-
-    def plot_raw_data(self):
+            y.append(_data)
 
         G = PlotlyGraph()
 
         G.add_line(
             self.X,
-            self.Y,
+            y,
             label=self.labels,
-            title="Raw Data",
+            title="Acceleration",
             xlabel="Time [Second]",
             ylabel="Acceleration Amplitude [g]",
         )
@@ -170,12 +161,14 @@ class Plots:
 
         return G.fig
 
-    def plot_velocity(self):
+    def plot_timeseries_integrated_velocity(self):
 
         y = []
 
         for data in self.Y:
+
             vel = integrate_to_velocity(data, self.fs)
+
             y.append(vel)
 
         G = PlotlyGraph()
@@ -195,26 +188,38 @@ class Plots:
 
         return G.fig
 
-    def plot_envelope(self):
+    def plot_fft_acceleration(self, ref):
 
+        x = []
         y = []
+
+        max_v = 0
 
         for data in self.Y:
 
-            analytic_signal = hilbert(data)
-            amplitude_envelope = np.abs(analytic_signal)
+            fft_x, fft_y = FA.calc_fft(data, self.fs)
 
-            y.append(amplitude_envelope)
+            y.append(fft_y)
+            x.append(fft_x)
+
+            _v = select_fft_range(fft_x, fft_y)
+            if _v > max_v:
+                max_v = _v
 
         G = PlotlyGraph()
 
+        if ref:
+            add_box(G.fig, ref, max_v)
+
         G.add_line(
-            self.X,
+            x,
             y,
             label=self.labels,
-            title="Envelope",
-            xlabel="Time [Second]",
-            ylabel="Acceleration Amplitude [g]",
+            xlim=[5, 550],
+            ylim=[0, max_v],
+            title="Spectrum (Acceleration)",
+            xlabel="Frequency [Hz]",
+            ylabel="FFT Amplitude [g]",
         )
 
         G.fig.update_layout(
@@ -223,7 +228,7 @@ class Plots:
 
         return G.fig
 
-    def plot_fft(self, ref):
+    def plot_fft_velocity(self, ref):
 
         x = []
         y = []
@@ -254,7 +259,48 @@ class Plots:
             label=self.labels,
             xlim=[5, 550],
             ylim=[0, max_v],
-            title="Spectrum (Raw Data)",
+            title="Spectrum (Velocity)",
+            xlabel="Frequency [Hz]",
+            ylabel="FFT Amplitude [mm/s]",
+        )
+
+        G.fig.update_layout(
+            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+        )
+
+        return G.fig
+
+    def plot_envelope_fft_acceleration(self, ref):
+
+        y = []
+        x = []
+
+        max_v = 0
+
+        for data in self.Y:
+
+            envelope = calculate_envelope_hilbert_transform(data)
+
+            fft_x, fft_y = FA.calc_fft(envelope, self.fs)
+
+            y.append(fft_y)
+            x.append(fft_x)
+
+            _v = select_fft_range(fft_x, fft_y)
+            if _v > max_v:
+                max_v = _v
+
+        G = PlotlyGraph()
+
+        add_box(G.fig, ref, max_v)
+
+        G.add_line(
+            x,
+            y,
+            label=self.labels,
+            xlim=[5, 550],
+            ylim=[0, max_v],
+            title="Envelope Spectrum (Acceleration)",
             xlabel="Frequency [Hz]",
             ylabel="FFT Amplitude [g]",
         )
@@ -265,34 +311,7 @@ class Plots:
 
         return G.fig
 
-    def plot_fft_iftt(self):
-
-        y = []
-
-        for data in self.Y:
-
-            _data = fft_ifft(data)
-
-            y.append(_data)
-
-        G = PlotlyGraph()
-
-        G.add_line(
-            self.X,
-            y,
-            label=self.labels,
-            title="Acceleration",
-            xlabel="Time [Second]",
-            ylabel="Acceleration Amplitude [g]",
-        )
-
-        G.fig.update_layout(
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-        )
-
-        return G.fig
-
-    def plot_envelope_fft(self, ref):
+    def plot_envelope_fft_velocity(self, ref):
 
         y = []
         x = []
@@ -303,56 +322,9 @@ class Plots:
 
             vel = integrate_to_velocity(data, self.fs)
 
-            analytic_signal = hilbert(vel)
-            amplitude_envelope = np.abs(analytic_signal)
+            envelope = calculate_envelope_hilbert_transform(vel)
 
-            fft_x, fft_y = FA.calc_fft(amplitude_envelope, self.fs)
-
-            y.append(fft_y)
-            x.append(fft_x)
-
-            _v = select_fft_range(fft_x, fft_y)
-            if _v > max_v:
-                max_v = _v
-
-        G = PlotlyGraph()
-
-        add_box(G.fig, ref, max_v)
-
-        G.add_line(
-            x,
-            y,
-            label=self.labels,
-            xlim=[5, 550],
-            ylim=[0, max_v],
-            title="Spectrum (Envelope)",
-            xlabel="Frequency [Hz]",
-            ylabel="FFT Amplitude [g]",
-        )
-
-        G.fig.update_layout(
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-        )
-
-        return G.fig
-
-    #
-
-    def plot_envelope_fft_with_filter(self, ref):
-
-        y = []
-        x = []
-
-        max_v = 0
-
-        for data in self.Y:
-
-            data = FA.bandpass_filter(data, lowcut=10, highcut=500, fs=self.fs, order=3)
-
-            analytic_signal = hilbert(data)
-            amplitude_envelope = np.abs(analytic_signal)
-
-            fft_x, fft_y = FA.calc_fft(amplitude_envelope, self.fs)
+            fft_x, fft_y = FA.calc_fft(envelope, self.fs)
 
             y.append(fft_y)
             x.append(fft_x)
@@ -371,9 +343,9 @@ class Plots:
             label=self.labels,
             xlim=[5, 550],
             ylim=[0, max_v],
-            title="Envelope Spectrum + Band Pass Filter",
+            title="Envelope Spectrum (Velocity)",
             xlabel="Frequency [Hz]",
-            ylabel="FFT Amplitude [g]",
+            ylabel="FFT Amplitude [mm/s]",
         )
 
         G.fig.update_layout(
@@ -382,162 +354,7 @@ class Plots:
 
         return G.fig
 
-    #
-
-    def plot_envelope_fft_with_wavelet_denosing(self, ref):
-
-        y = []
-        x = []
-
-        max_v = 0
-
-        for data in self.Y:
-
-            # Perform a multi-level wavelet decomposition
-            coeffs = pywt.wavedec(data, "db1", level=4)
-
-            # Set a threshold to nullify smaller coefficients (assumed to be noise)
-            threshold = 0.5
-            coeffs_thresholded = [
-                pywt.threshold(c, threshold, mode="soft") for c in coeffs
-            ]
-
-            # Reconstruct the signal from the thresholded coefficients
-            data = pywt.waverec(coeffs_thresholded, "db1")
-
-            analytic_signal = hilbert(data)
-            amplitude_envelope = np.abs(analytic_signal)
-
-            fft_x, fft_y = FA.calc_fft(amplitude_envelope, self.fs)
-
-            y.append(fft_y)
-            x.append(fft_x)
-
-            _v = select_fft_range(fft_x, fft_y)
-            if _v > max_v:
-                max_v = _v
-
-        G = PlotlyGraph()
-
-        add_box(G.fig, ref, max_v)
-
-        G.add_line(
-            x,
-            y,
-            label=self.labels,
-            xlim=[5, 550],
-            ylim=[0, max_v],
-            title="Envelope Spectrum + Wavelet Transform Denoising",
-            xlabel="Frequency [Hz]",
-            ylabel="FFT Amplitude [g]",
-        )
-
-        G.fig.update_layout(
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-        )
-
-        return G.fig
-
-    #
-
-    def plot_envelope_fft_with_denoising_filter(self, ref):
-
-        y = []
-        x = []
-
-        max_v = 0
-
-        for data in self.Y:
-
-            # Perform a multi-level wavelet decomposition
-            coeffs = pywt.wavedec(data, "db1", level=4)
-            # Set a threshold to nullify smaller coefficients (assumed to be noise)
-            threshold = 0.5
-            coeffs_thresholded = [
-                pywt.threshold(c, threshold, mode="soft") for c in coeffs
-            ]
-            # Reconstruct the signal from the thresholded coefficients
-            data = pywt.waverec(coeffs_thresholded, "db1")
-
-            #
-            data = FA.bandpass_filter(data, lowcut=10, highcut=600, fs=self.fs, order=3)
-
-            analytic_signal = hilbert(data)
-            amplitude_envelope = np.abs(analytic_signal)
-
-            fft_x, fft_y = FA.calc_fft(amplitude_envelope, self.fs)
-
-            y.append(fft_y)
-            x.append(fft_x)
-
-            _v = select_fft_range(fft_x, fft_y)
-            if _v > max_v:
-                max_v = _v
-
-        G = PlotlyGraph()
-
-        add_box(G.fig, ref, max_v)
-
-        G.add_line(
-            x,
-            y,
-            label=self.labels,
-            xlim=[5, 550],
-            ylim=[0, max_v],
-            title="Envelope Spectrum + Denoising + Filter",
-            xlabel="Frequency [Hz]",
-            ylabel="FFT Amplitude [g]",
-        )
-
-        G.fig.update_layout(
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-        )
-
-        return G.fig
-
-    #
-
-    def plot_envelope_psd(self, ref):
-
-        y = []
-        x = []
-
-        max_v = 1
-
-        for data in self.Y:
-
-            analytic_signal = hilbert(data)
-            amplitude_envelope = np.abs(analytic_signal)
-
-            f, Pxx_den = welch(amplitude_envelope, self.fs, nperseg=self.fs // 2)
-
-            y.append(Pxx_den)
-            x.append(f)
-
-        G = PlotlyGraph()
-
-        add_box(G.fig, ref, max_v, y_min=1e-9)
-
-        G.add_line(
-            x,
-            y,
-            label=self.labels,
-            xlim=[0, 550],
-            # ylim=[1e-9, 1],
-            title="Power Spectrum Density (PSD) (Envelope)",
-            xlabel="Frequency [Hz]",
-            ylabel="Amplitude [g**2/Hz]",
-        )
-
-        G.fig.update_yaxes(type="log", range=[-9, 0])
-
-        G.fig.update_layout(
-            legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
-        )
-
-        return G.fig
-
-    def plot_statistic(self):
+    def plot_statistic_acceleration(self):
 
         Y_rms = []
         Y_kurtosis = []

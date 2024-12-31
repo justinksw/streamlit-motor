@@ -120,8 +120,8 @@ def generate_html_template():
 
     plot = Plots([x], [y], [motor1_name], 1600)
 
-    fig = plot.plot_fft_iftt()
-    fig2 = plot.plot_fft(ref={})
+    fig = plot.plot_timeseries_acceleration_remove_dc()
+    fig2 = plot.plot_fft_velocity(ref={})
 
     html_report = template.render(
         table=summary.to_html(index=False),

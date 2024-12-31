@@ -42,8 +42,6 @@ class Analysis:
 
         plot = Plots(x, y, labels, fs)
 
-        # == ROW == #
-
         container = st.container(border=True)
         with container:
             st.subheader("Temporal Analysis")
@@ -52,19 +50,17 @@ class Analysis:
 
             with col1:
                 if st.session_state["data_type"] == "Acceleration":
-                    st.plotly_chart(plot.plot_fft_iftt())
+                    st.plotly_chart(plot.plot_timeseries_acceleration_remove_dc())
 
                 elif st.session_state["data_type"] == "Velocity":
-                    st.plotly_chart(plot.plot_velocity())
+                    st.plotly_chart(plot.plot_timeseries_integrated_velocity())
 
             with col2:
                 if st.session_state["data_type"] == "Acceleration":
-                    st.plotly_chart(plot.plot_statistic())
+                    st.plotly_chart(plot.plot_statistic_acceleration())
 
                 elif st.session_state["data_type"] == "Velocity":
                     st.plotly_chart(plot.plot_statistic_velocity())
-
-        # == ROW == #
 
         ref = {
             "Show RPM": 0,
@@ -79,8 +75,6 @@ class Analysis:
             "FTF": 0,
         }
 
-        # == ROW == #
-
         st.write("")
 
         container = st.container(border=True)
@@ -88,7 +82,6 @@ class Analysis:
 
             st.subheader("Spectral Analysis")
 
-            # ================================== #
             container = st.container(border=True)
             with container:
 
@@ -98,52 +91,43 @@ class Analysis:
                 with col1:
                     ref["RPM"] = int(st.text_input("Rotation Speed (RPM)", "1488")) / 60
                     ref["Show RPM"] = st.checkbox("Show RPM")
-
                 with col2:
                     ref["BPFI"] = (
                         float(st.text_input("BPFI (Inner Race)", "5.0020")) * ref["RPM"]
                     )
                     ref["Show BPFI"] = st.checkbox("Show BPFI")
-
                 with col3:
                     ref["BPFO"] = (
                         float(st.text_input("BPFO (Outer Race)", "2.9980")) * ref["RPM"]
                     )
                     ref["Show BPFO"] = st.checkbox("Show BPFO")
-
                 with col4:
                     ref["BSF"] = (
                         float(st.text_input("BSF (Ball Spin)", "1.8710")) * ref["RPM"]
                     )
                     ref["Show BSF"] = st.checkbox("Show BSF")
-
                 with col5:
                     ref["FTF"] = (
                         float(st.text_input("FTF (Cage)", "0.3750")) * ref["RPM"]
                     )
                     ref["Show FTF"] = st.checkbox("Show FTF")
 
-            # ================================== #
-
             col1, col2 = st.columns(2, gap="medium")
+            
             with col1:
-                st.plotly_chart(plot.plot_fft(ref))
+
+                if st.session_state["data_type"] == "Acceleration":
+                    st.plotly_chart(plot.plot_fft_acceleration(ref))
+
+                elif st.session_state["data_type"] == "Velocity":
+                    st.plotly_chart(plot.plot_fft_velocity(ref))
+
             with col2:
-                st.plotly_chart(plot.plot_envelope_fft(ref))
 
-        # == ROW == #
+                if st.session_state["data_type"] == "Acceleration":
+                    st.plotly_chart(plot.plot_envelope_fft_acceleration(ref))
 
-        # container = st.container(border=True)
-        # with container:
-
-        #     col1, col2 = st.columns(2, gap="medium")
-        #     with col1:
-        #         st.plotly_chart(plot.plot_envelope_fft_with_wavelet_denosing(ref))
-        #     with col2:
-        #         st.write("")
-        #         # st.plotly_chart(plot.plot_envelope_fft_with_filter(ref))
-        #         # st.plotly_chart(plot.plot_envelope_fft_with_denoising_filter(ref))
-
-        #         st.plotly_chart(plot.plot_fft_iftt())
+                elif st.session_state["data_type"] == "Velocity":
+                    st.plotly_chart(plot.plot_envelope_fft_velocity(ref))
 
         return None
