@@ -274,8 +274,13 @@ password = ""
 
 ## Docker Image Save and Load
 
-## Docker Container Export and Import
+Window:
 
+```
+docker load -i windowsservercore.tar
+```
+
+## Docker Container Export and Import
 
 
 ## Bind local folder with the direcotry in docker
@@ -284,4 +289,6 @@ password = ""
 docker run -v /Users/justin/GitHub/streamlit-motor/data/CLP20241024data/Motor_4:/streamlit-motor/data -p 8501:8501 streamlit
 ```
 
+[Exploring Docker container's file system](https://stackoverflow.com/questions/20813486/exploring-docker-containers-file-system)
 
+[How can I use a local file on container?](https://stackoverflow.com/questions/44876778/how-can-i-use-a-local-file-on-container)
