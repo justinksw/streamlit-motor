@@ -6,7 +6,6 @@ import streamlit as st
 
 from src.anlysis import Analysis
 from src.calculation import integrate_to_velocity
-from kswutils_signal.frequency_analysis import FrequencyAnalysis as FA
 
 
 class Detail:

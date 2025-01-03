@@ -278,7 +278,10 @@ password = ""
 
 
 
+## Bind local folder with the direcotry in docker
 
-
+```
+docker run -v /Users/justin/GitHub/streamlit-motor/data/CLP20241024data/Motor_4:/streamlit-motor/data -p 8501:8501 streamlit
+```
 
 
