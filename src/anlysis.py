@@ -38,7 +38,7 @@ class Analysis:
         return None
 
     @staticmethod
-    def plot_charts(x, y, labels, fs=1600):
+    def plot_charts(x, y, labels, fs):
 
         plot = Plots(x, y, labels, fs)
 
@@ -89,7 +89,10 @@ class Analysis:
 
                 col1, col2, col3, col4, col5 = st.columns(5)
                 with col1:
-                    ref["RPM"] = int(st.text_input("Rotation Speed (RPM)", "1488")) / 60
+                    rpm = st.session_state["motor_rpm"]
+                    ref["RPM"] = (
+                        int(st.text_input("Rotation Speed (RPM)", f"{rpm}")) / 60
+                    )
                     ref["Show RPM"] = st.checkbox("Show RPM")
                 with col2:
                     ref["BPFI"] = (
@@ -113,7 +116,7 @@ class Analysis:
                     ref["Show FTF"] = st.checkbox("Show FTF")
 
             col1, col2 = st.columns(2, gap="medium")
-            
+
             with col1:
 
                 if st.session_state["data_type"] == "Acceleration":

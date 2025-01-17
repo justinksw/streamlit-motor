@@ -59,9 +59,7 @@ class Historical:
 
             files = [path]
 
-            fs = 1600
-            if motor_selection not in ["Motor 4", "Motor 7", "Motor 8"]:
-                fs = 50000
+            fs = int(st.session_state["sensor_fs"])
 
             datafiles = [MotorJsonFile(i, local=True) for i in files]
 

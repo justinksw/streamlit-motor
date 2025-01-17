@@ -40,9 +40,16 @@ class Overview:
 
             with col1:
 
+                conditon = (
+                    "Warn"
+                    if motor.get_motor_name() not in ["Motor 7", "Motor 8"]
+                    else ""
+                )
+
                 static.infomation_card(
                     motor_name=motor.get_motor_name(),
-                    motor_condition=motor.get_condition(),
+                    # motor_condition=motor.get_condition(),
+                    motor_condition=conditon,
                     battery1=motor.get_battery()[0],
                     battery2=motor.get_battery()[1],
                     inspection_date=motor.get_last_inspection_date(),

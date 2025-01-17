@@ -7,6 +7,7 @@ import streamlit as st
 from src.anlysis import Analysis
 from src.calculation import integrate_to_velocity
 
+from src2.vae import calculate_abnomaly_score
 
 class Detail:
     def __init__(self) -> None:
@@ -52,14 +53,12 @@ class Detail:
                 idx = motor_data["Sensor Loc"].index(sensor_loc)
                 y = motor_data["Data"][idx]
 
-                fs = 1600
-                if motor_name not in ["Motor 4", "Motor 7", "Motor 8"]:
-                    fs = 50000
+                ai_score = calculate_abnomaly_score(y)
+
+                fs = int(st.session_state["sensor_fs"])
 
                 x = np.linspace(0, len(y), len(y)) / fs
                 label = motor_name
-
-                ai = random() * (400 - 300) + 300
 
                 vel = integrate_to_velocity(y, fs)
                 rms = round(np.sqrt(np.mean(np.power(vel, 2))), 2)
@@ -67,11 +66,13 @@ class Detail:
                 day = motor_data["Inspection Date"][idx]
                 daydiff = datetime.datetime.today() - day
 
+                motor_condition = "Warn"
+
                 analysis.write_metrics(
                     motor_name, sensor_loc, motor_condition, daydiff.days, rms
                 )
 
-                analysis.gauge_indicator(ai, rms)
+                analysis.gauge_indicator(ai_score, rms)
 
                 analysis.plot_charts([x], [y], [label], fs)
 

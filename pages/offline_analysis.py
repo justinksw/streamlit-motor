@@ -12,11 +12,11 @@ class OfflineAnalysis:
 
         self.files = self.upload_file()
 
-        col1, col2 = st.columns(2, vertical_alignment="center")
-        with col1:
-            self.fs = st.text_input("Sensor Sampling Rate (Hz)", "1600")
-        with col2:
-            st.text_input("Motor Rotation Speed (RPM)", "1488")
+        # col1, col2 = st.columns(2, vertical_alignment="center")
+        # with col1:
+        #     self.fs = st.text_input("Sensor Sampling Rate (Hz)", "1600")
+        # with col2:
+        #     st.text_input("Motor Rotation Speed (RPM)", "1488")
 
     def upload_file(self):
         container = st.container(height=None, border=True)
@@ -37,7 +37,7 @@ class OfflineAnalysis:
         # Local analysis: files: directories
         # Online analysis: files: streamlit upload file objects
 
-        fs = int(self.fs)
+        fs = int(st.session_state["sensor_fs"])
 
         datafiles = [MotorJsonFile(i, local=False) for i in self.files]
 

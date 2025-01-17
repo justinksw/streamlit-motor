@@ -20,49 +20,49 @@ if "motors" not in st.session_state:
             motor_name="Motor 1",
             sensor_id_drive="drive",
             sensor_id_non_drive="non-drive",
-            datafolder="data/CLP20241024data/Motor 1 (dummy)",
+            datafolder="data/test/Motor_1",
         ),
         "Motor 2": Motor(
             motor_name="Motor 2",
             sensor_id_drive="drive",
             sensor_id_non_drive="non-drive",
-            datafolder="data/CLP20241024data/Motor 2 (dummy)",
+            datafolder="data/test/Motor_2",
         ),
         "Motor 3": Motor(
             motor_name="Motor 3",
             sensor_id_drive="drive",
             sensor_id_non_drive="non-drive",
-            datafolder="data/CLP20241024data/Motor 3 (dummy)",
+            datafolder="data/test/Motor_3",
         ),
         "Motor 4": Motor(
             motor_name="Motor 4",
-            sensor_id_drive="00:13:a2:00:42:35:db:cb",
-            sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-            datafolder="data/CLP20241024data/Motor 4",
+            sensor_id_drive="drive",
+            sensor_id_non_drive="non-drive",
+            datafolder="data/test/Motor_4",
         ),
         "Motor 5": Motor(
             motor_name="Motor 5",
             sensor_id_drive="drive",
             sensor_id_non_drive="non-drive",
-            datafolder="data/CLP20241024data/Motor 5 (dummy)",
+            datafolder="data/test/Motor_5",
         ),
         "Motor 6": Motor(
             motor_name="Motor 6",
             sensor_id_drive="drive",
             sensor_id_non_drive="non-drive",
-            datafolder="data/CLP20241024data/Motor 6 (dummy)",
+            datafolder="data/test/Motor_6",
         ),
         "Motor 7": Motor(
             motor_name="Motor 7",
-            sensor_id_drive="00:13:a2:00:42:35:db:cb",
-            sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-            datafolder="data/CLP20241024data/Motor 7",
+            sensor_id_drive="drive",
+            sensor_id_non_drive="non-drive",
+            datafolder="data/test/Motor_7",
         ),
         "Motor 8": Motor(
             motor_name="Motor 8",
-            sensor_id_drive="00:13:a2:00:42:35:db:cb",
-            sensor_id_non_drive="00:13:a2:00:42:30:83:0f",
-            datafolder="data/CLP20241024data/Motor 8",
+            sensor_id_drive="drive",
+            sensor_id_non_drive="non-drive",
+            datafolder="data/test/Motor_8",
         ),
     }
 
@@ -79,10 +79,10 @@ if "selected_sensor" not in st.session_state:
     st.session_state["selected_sensor"] = "Drive-end"
 
 if "motor_rpm" not in st.session_state:
-    st.session_state["motor_rpm"] = 1488
+    st.session_state["motor_rpm"] = 1740
 
 if "sensor_fs" not in st.session_state:
-    st.session_state["sensor_fs"] = 1600
+    st.session_state["sensor_fs"] = 50000
 
 # == Main == #
 

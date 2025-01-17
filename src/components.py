@@ -233,8 +233,8 @@ class Static:
 
                     // static zones
                     staticZones: [
-                    {{strokeStyle: "#4CC790", min: 0, max: 550}},
-                    {{strokeStyle: "#ED7724", min: 550, max: 1100}},
+                    {{strokeStyle: "#4CC790", min: 0, max: 155}},
+                    {{strokeStyle: "#ED7724", min: 155, max: 310}},
                     ],
 
                     // SET to false
@@ -273,7 +273,7 @@ class Static:
                 document.getElementById("preview-textfield").className = "preview-textfield";
                 // gauge.setTextField(document.getElementById("preview-textfield"));
 
-                gauge.maxValue = 1100;
+                gauge.maxValue = 310;
                 gauge.setMinValue(0); 
 
                 gauge.set({value});
@@ -333,6 +333,9 @@ class Static:
 
     def gauge_chart_rms(self, value):
         title = "ISO 20816-1"
+
+        if value > 14.7:
+            value = 14.7
 
         setting = f"""
             <script>
